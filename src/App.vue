@@ -36,20 +36,20 @@ import { Configuration } from '@/types/configuration';
 import { DataView } from '@/types/data-view';
 import { AddConfigEvent } from '@/types/events/add-config-event';
 import { Project } from '@/types/project';
-import { SourceApi } from '@/services/source-api';
-import { GitHubSource } from '@/services/source-api-implementations/git-hub/git-hub-source';
 import { SelectConfigEvent } from '@/types/events/select-config-event';
 import { ProjectEvent } from '@/types/events/project-event';
 import { ChangeConfigEvent } from '@/types/events/change-config-event';
 import { RemoveConfigEvent } from '@/types/events/remove-config-event';
-import { TestSource } from '@/services/source-api-implementations/mock/test-source';
 import { Dialogs } from '@/components/dialogs';
+import { ProjectsApi } from '@/api/projects-api';
+import { ConfigsApi } from '@/api/configs-api';
 
 @Component({
   components: { Sidebar, ContentEditor}
 })
 export default class App extends Vue {
-  private api: SourceApi = new TestSource();
+  private projectsApi = new ProjectsApi();
+  private configsApi = new ConfigsApi();
   private projects: Project[] = [];
   private selected: DataView | null = null;
 
@@ -77,7 +77,7 @@ export default class App extends Vue {
 
     this.uiState.global.busy = true;
     this.uiState.editor.disabled = true;
-    const proj = await this.api.createProject(event.projectName);
+    const proj = await this.projectsApi.createProject(event.projectName);
     this.projects.push(proj);
     this.uiState.global.busy = false;
     this.toastSuccess(`Project '${event.projectName}' was successfully created`);
@@ -90,7 +90,7 @@ export default class App extends Vue {
     }
 
     this.uiState.global.busy = true;
-    await this.api.deleteProject(event.projectName);
+    await this.projectsApi.deleteProject(event.projectName);
     if (this.selected && this.selected.projectName === event.projectName) {
       this.selected = null;
     }
@@ -107,7 +107,7 @@ export default class App extends Vue {
 
     this.uiState.global.busy = true;
 
-    const config = await this.api.addConfiguration(event.projectName, event.configName);
+    const config = await this.configsApi.addConfiguration(event.projectName, event.configName);
 
     const project = this.projects.find(f => f.name === event.projectName);
     if (!project) {
@@ -126,7 +126,7 @@ export default class App extends Vue {
   private async changeConfig(event: ChangeConfigEvent) {
     this.uiState.global.busy = true;
 
-    await this.api.updateConfiguration(event.projectName, event.configName, event.data);
+    await this.configsApi.updateConfiguration(event.projectName, event.configName, event.data);
 
     const proj = this.projects.find(f => f.name === event.projectName);
     if (!proj) {
@@ -170,7 +170,7 @@ export default class App extends Vue {
       return;
     }
 
-    await this.api.removeConfiguration(event.projectName, event.configName);
+    await this.configsApi.removeConfiguration(event.projectName, event.configName);
     if (this.selected && this.selected.projectName === event.projectName && this.selected.configName === event.configName) {
       this.selected = null;
     }
@@ -181,7 +181,7 @@ export default class App extends Vue {
 
   private async refreshProjectList() {
     try {
-      this.projects = await this.api.projects();
+      this.projects = await this.projectsApi.projects();
     } catch (e) {
       console.error("error", e);
     }
