@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "12"
+install: npm install
+script:
+  - "npm run build"
+deploy:
+  provider: heroku
+  api_key:
+    secure: iWjkWIybaH5tqUiuj/Kujo5Vo2pzbluAwtNW0iV1m7N5pWSLGKo+3PMcUuTDaN4iUo4Vt1uhzFOuAN32Jp+Jggz666XliEw3TsQ0BnmVamipC4O32dZVgezyZ3gBDvFg4kNMwq/Ry5zJyHc44kPs4acPacxiuZNKplQLp5UQDjIZLP6SFBwL1tAClRACBc4Whe5BcHQvST74rZw5M0J771sCBZs1pzpZBcVIrJz9Oclw9f/Cb+smhWsc5JOC4dN2unX4xJlL/jW7MS+BLuVsAxFBwldV0CRm9eVrrkWRrirjbN3n8Iu44ZvSTiHGyKIlyFcOUAv1dLIgoMlDW0PRSonpsKD+0eiZOuMeJOl5ucYrimb2JUebBndIkWrYTt/aRkWbmLlZpk+/OOeMNZbgDE5KkXRZrE0zXW7BpM045kNz2KlK1G4klXVg0WbAto8inpWgA6NyD8gCsR1ust6kvsoVepz6CMp9T1H5gGYtotamtmuxUrw1dyRph2Cw8IOTE3uBe+7apLFPQ4LeyTrzi8wvPFK5trI8tnoP1vrDwUDJTc1/cyLFZxQql4q9JztjhVZ+IdJ4MWqJ9RWtpBOV+pGiLCl6NO1np4ePevsrAT7WBZaEaRKMV3rOYsTN/P6H7GNy+8g+rVwnGVuRHE90yRDuqMUOrLdyQ3A+w8rugl0=
+  app: configuration-server-client
+branches:
+  only:
+    - master
