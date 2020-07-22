@@ -13,7 +13,7 @@ export class ConfigsApi {
             "Content-Type": "application/json"
           };
 
-          this.http = HttpClient.create("http://localhost:5500", headers);
+          this.http = HttpClient.create("https://configuration-server-api.herokuapp.com", headers);
     }
 
     async addConfiguration(projName: string, envName: string): Promise<Configuration> {
