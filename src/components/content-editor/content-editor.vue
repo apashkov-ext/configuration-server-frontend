@@ -46,10 +46,6 @@ export default class ContentEditor extends Vue {
   @Prop() busy!: boolean;
   @Prop() disabled!: boolean;
 
-  private emit = {
-    onChange: (event: ChangeConfigEvent) => this.$emit('onChange', event)
-  };
-
   private get label(): string {
     const projName = this.data.projectName || '';
     if (this.data.configName) {
@@ -75,7 +71,7 @@ export default class ContentEditor extends Vue {
     if (this.data.content === val) {
       return;
     }
-    this.emit.onChange({ projectName: this.data.projectName, configName: this.data.configName, data: val });
+    this.$emit('onChange', { projectName: this.data.projectName, configName: this.data.configName, data: val });
     this.editorMode = false;
   }
 
