@@ -11,7 +11,7 @@ export class ProjectsApi {
     constructor() {
         const headers = {
             // "Authorization": `token ${personalToken}`,
-            // "Accept": "application/vnd.github.v3+json",
+            "Accept": "application/json",
             "Content-Type": "application/json"
           };
 
