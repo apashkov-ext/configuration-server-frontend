@@ -15,7 +15,7 @@ export class ProjectsApi {
             "Content-Type": "application/json"
           };
 
-          this.http = HttpClient.create("https://configuration-server-client.herokuapp.com", headers);
+          this.http = HttpClient.create("https://configuration-server-api.herokuapp.com", headers);
     }
 
     async projects(): Promise<Project[]> {
