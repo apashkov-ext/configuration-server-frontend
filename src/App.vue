@@ -76,7 +76,6 @@ export default class App extends Vue {
     }
 
     this.uiState.global.busy = true;
-    this.uiState.editor.disabled = true;
     const proj = await this.projectsApi.createProject(event.projectName);
     this.projects.push(proj);
     this.uiState.global.busy = false;
