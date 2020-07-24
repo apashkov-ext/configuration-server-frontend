@@ -13,7 +13,7 @@ export class ConfigsApi {
             "Content-Type": "application/json"
           };
 
-          this.http = HttpClient.create("https://configuration-server-api.herokuapp.com", headers);
+          this.http = HttpClient.create(process.env.VUE_APP_API_URL, headers);
     }
 
     async addConfiguration(projName: string, envName: string): Promise<Configuration> {

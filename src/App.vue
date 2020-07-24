@@ -40,7 +40,7 @@ import { SelectConfigEvent } from '@/types/events/select-config-event';
 import { ProjectEvent } from '@/types/events/project-event';
 import { ChangeConfigEvent } from '@/types/events/change-config-event';
 import { RemoveConfigEvent } from '@/types/events/remove-config-event';
-import { Dialogs } from '@/components/dialogs';
+import { Modals } from '@/components/modals';
 import { ProjectsApi } from '@/api/projects-api';
 import { ConfigsApi } from '@/api/configs-api';
 
@@ -83,7 +83,7 @@ export default class App extends Vue {
   }
 
   private async deleteProject(event: ProjectEvent) {
-    const confirm = await Dialogs.showConfirm('Delete project confirmation', `Are you sure you want to delete project '${event.projectName}'?`);
+    const confirm = await Modals.showConfirm('Delete project confirmation', `Are you sure you want to delete project '${event.projectName}'?`);
     if (!confirm) {
       return;
     }
@@ -151,7 +151,7 @@ export default class App extends Vue {
   }
 
   private async removeConfig(event: RemoveConfigEvent) {
-    const confirm = await Dialogs.showConfirm('Remove config confirmation', 
+    const confirm = await Modals.showConfirm('Remove config confirmation', 
       `Are you sure you want to remove config '${event.configName}' from project '${event.projectName}'?`);
     if (!confirm) {
       return;
