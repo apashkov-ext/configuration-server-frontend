@@ -1,18 +1,20 @@
 <template>
-    <dialog title="title" message="message">
+    <dialog-wrapper :title="title" :message="message">
         <div class="d-flex justify-content-between">
             <div>
                 <b-button @click="ok()">Ok</b-button>
             </div>
         </div>
-    </dialog>
+    </dialog-wrapper>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import Dialog from './dialog.vue'
+import DialogWrapper from './dialog-wrapper.vue'
 
-@Component
+@Component({
+    components: { DialogWrapper }
+})
 export default class Notification extends Vue {
     @Prop() title!: string;
     @Prop() message!: string;

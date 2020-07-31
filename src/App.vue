@@ -43,6 +43,7 @@ import { RemoveConfigEvent } from '@/types/events/remove-config-event';
 import { Modals } from '@/components/modals';
 import { ProjectsApi } from '@/api/projects-api';
 import { ConfigsApi } from '@/api/configs-api';
+import Helper from '@/helper';
 
 @Component({
   components: { Sidebar, ContentEditor}
@@ -79,6 +80,7 @@ export default class App extends Vue {
     const proj = await this.projectsApi.createProject(event.projectName);
     this.projects.push(proj);
     this.uiState.global.busy = false;
+    await Modals.showNotif(`Use this api key to access the project '${event.projectName}'`, Helper.hash(event.projectName));
     this.toastSuccess(`Project '${event.projectName}' was successfully created`);
   }
 

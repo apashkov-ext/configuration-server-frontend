@@ -18,7 +18,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
-export default class Dialog extends Vue {
+export default class DialogWrapper extends Vue {
     @Prop() title!: string;
     @Prop() message!: string;
 }
