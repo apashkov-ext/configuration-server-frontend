@@ -1,28 +1,20 @@
 import { ProjectDto } from '@/types/dto/project-dto';
-import { HttpClient } from './http-client';
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { RequestException } from '@/exceptions/request-exception';
 import { Project } from '@/types/project';
 import { Configuration } from '@/types/configuration';
+import { SupportsInjection } from 'good-injector';
+import { HttpClient } from '@/core/services/http-client';
+import { Inject } from '@/core/di/decorators/inject';
 
+@SupportsInjection
 export class ProjectsApi {
-    private readonly http: AxiosInstance;
-
-    constructor() {
-        const headers = {
-            // "Authorization": `token ${personalToken}`,
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-          };
-
-          this.http = HttpClient.create(process.env.VUE_APP_API_URL, headers);
-    }
+    @Inject(HttpClient) private readonly http!: HttpClient
 
     async projects(): Promise<Project[]> {
         const res = await this.http.get<ProjectDto[]>('projects');
         return res.data.map(p => new Project(p.name, p.configurations.map(c => new Configuration(c.environment, c.data))));
     }
-
   
     async createProject(name: string): Promise<Project> {
         const req = {

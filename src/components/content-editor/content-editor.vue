@@ -35,50 +35,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import { Configuration } from '@/types/configuration';
-import { DataView } from '@/types/data-view';
-import { ChangeConfigEvent } from '@/types/events/change-config-event';
-
-@Component
-export default class ContentEditor extends Vue {
-  @Prop() data!: DataView;
-  @Prop() busy!: boolean;
-  @Prop() disabled!: boolean;
-
-  private get label(): string {
-    const projName = this.data.projectName || '';
-    if (this.data.configName) {
-      return `${projName} (${this.data.configName})`
-    }
-    return `${projName} (default)`;
-  }
-
-  private temp = this.data.content;
-  private editorMode = false;
-
-  private edit() {
-    this.temp = this.data.content;
-    this.editorMode = true;
-  }
-
-  private cancel() {
-    this.temp = this.data.content;
-    this.editorMode = false;
-  }
-
-  private commit(val: string) {
-    if (this.data.content === val) {
-      return;
-    }
-    this.$emit('onChange', { projectName: this.data.projectName, configName: this.data.configName, data: val });
-    this.editorMode = false;
-  }
-
-  private handleInput(val: string) {
-    this.temp = val;
-  }
-}
+import { ContentEditor } from './content-editor';
+export default ContentEditor
 </script>
 
 <style lang="scss">

@@ -44,13 +44,16 @@ import { Modals } from '@/components/modals';
 import { ProjectsApi } from '@/api/projects-api';
 import { ConfigsApi } from '@/api/configs-api';
 import Helper from '@/helper';
+// import { AppContainer } from './app-container';
+import { HttpClient } from './core/services/http-client';
+import { Inject } from './core/di/decorators/inject';
 
 @Component({
   components: { Sidebar, ContentEditor}
 })
 export default class App extends Vue {
-  private projectsApi = new ProjectsApi();
-  private configsApi = new ConfigsApi();
+  @Inject(ProjectsApi) private readonly projectsApi!: ProjectsApi;
+  @Inject(ConfigsApi) private readonly configsApi!: ConfigsApi;
   private projects: Project[] = [];
   private selected: DataView | null = null;
 
@@ -66,13 +69,15 @@ export default class App extends Vue {
     }
   };
 
+ private http = new HttpClient();
+
   private selectConfig(event: SelectConfigEvent) {
     this.selected = new DataView(event.projectName, event.configName, event.data);
   }
 
   private async createProject(event: ProjectEvent) {
     if (this.projects.find(f => f.name === event.projectName)) {
-      this.toastWarn(`Project '${event.projectName}' already exists`);
+      // Toast.toastWarn(`Project '${event.projectName}' already exists`, this);
       return;
     }
 
@@ -81,7 +86,7 @@ export default class App extends Vue {
     this.projects.push(proj);
     this.uiState.global.busy = false;
     await Modals.showNotif(`Use this api key to access the project '${event.projectName}'`, Helper.hash(event.projectName));
-    this.toastSuccess(`Project '${event.projectName}' was successfully created`);
+    // Toast.toastSuccess(`Project '${event.projectName}' was successfully created`, this);
   }
 
   private async deleteProject(event: ProjectEvent) {
@@ -97,12 +102,12 @@ export default class App extends Vue {
     }
     this.projects = this.projects.filter(f => f.name !== event.projectName);
     this.uiState.global.busy = false;
-    this.toastSuccess(`Project '${event.projectName}' was successfully deleted`);
+    // Toast.toastSuccess(`Project '${event.projectName}' was successfully deleted`, this);
   }
 
   private async addConfig(event: AddConfigEvent) {
     if (this.projects.filter(f => f.name === event.projectName && f.configurations.find(x => x.environment === event.configName)).length) {
-      this.toastWarn(`Configuration '${event.configName}' already exists in project '${event.projectName}'`);
+      // Toast.toastWarn(`Configuration '${event.configName}' already exists in project '${event.projectName}'`, this);
       return;
     }
 
@@ -121,7 +126,7 @@ export default class App extends Vue {
 
     this.uiState.global.busy = false;
 
-    this.toastSuccess(`Configuration '${event.configName}' was successfully added`);
+    // Toast.toastSuccess(`Configuration '${event.configName}' was successfully added`, this);
   }
   
   private async changeConfig(event: ChangeConfigEvent) {
@@ -149,7 +154,7 @@ export default class App extends Vue {
 
     this.uiState.global.busy = false;
 
-    this.toastSuccess(`Configuration '${event.configName}' was successfully updated`);
+    // Toast.toastSuccess(`Configuration '${event.configName}' was successfully updated`, this);
   }
 
   private async removeConfig(event: RemoveConfigEvent) {
@@ -177,7 +182,7 @@ export default class App extends Vue {
     }
     proj.removeConfig(config);
     this.uiState.global.busy = false;
-    this.toastSuccess(`Configuration '${event.configName}' was successfully removed`);
+    // Toast.toastSuccess(`Configuration '${event.configName}' was successfully removed`, this);
   }
 
   private async refreshProjectList() {
@@ -186,26 +191,6 @@ export default class App extends Vue {
     } catch (e) {
       console.error("error", e);
     }
-  }
-
-  private toastSuccess(text: string) {
-    this.$bvToast.toast(text, {
-      title: 'Success',
-      solid: false,
-      appendToast: true,
-      toaster: 'b-toaster-bottom-right',
-      variant: 'success'
-    });
-  }
-
-  private toastWarn(text: string) {
-    this.$bvToast.toast(text, {
-      title: 'Note',
-      solid: false,
-      appendToast: true,
-      toaster: 'b-toaster-bottom-right',
-      variant: 'warning'
-    });
   }
 
   async mounted() {

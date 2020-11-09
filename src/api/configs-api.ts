@@ -1,20 +1,12 @@
-import { AxiosInstance } from 'axios';
-import { HttpClient } from './http-client';
 import { Configuration } from '@/types/configuration';
 import { ConfigurationDto } from '@/types/dto/configuration-dto';
+import { SupportsInjection } from 'good-injector';
+import { HttpClient } from '@/core/services/http-client';
+import { Inject } from '@/core/di/decorators/inject';
 
+@SupportsInjection
 export class ConfigsApi {
-    private readonly http: AxiosInstance;
-
-    constructor() {
-        const headers = {
-            // "Authorization": `token ${personalToken}`,
-            // "Accept": "application/vnd.github.v3+json",
-            "Content-Type": "application/json"
-          };
-
-          this.http = HttpClient.create(process.env.VUE_APP_API_URL, headers);
-    }
+    @Inject(HttpClient) private readonly http!: HttpClient
 
     async addConfiguration(projName: string, envName: string): Promise<Configuration> {
         const req = {
