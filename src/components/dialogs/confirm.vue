@@ -24,17 +24,17 @@ export default class Confirm extends Vue {
     @Prop() resolveFn!: (value?: boolean | PromiseLike<boolean> | undefined) => void;
     @Prop() rejectFn!: (reason?: any) => void;
 
-    private ok() {
+    ok() {
         this.resolveFn(true);
         this.close();
     }
 
-    private cancel() {
+    cancel() {
         this.resolveFn(false);
         this.close();
     }
 
-    private close() {
+    close() {
         this.$destroy();
         this.$el.remove();
     }

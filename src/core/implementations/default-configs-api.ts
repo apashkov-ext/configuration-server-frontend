@@ -1,12 +1,11 @@
-import { Configuration } from '@/types/configuration';
+import { Configuration } from '@/types';
 import { ConfigurationDto } from '@/types/dto/configuration-dto';
-import { SupportsInjection } from 'good-injector';
-import { HttpClient } from '@/core/services/http-client';
-import { Inject } from '@/core/di/decorators/inject';
+import { Inject, Injectable } from 'di-corate';
+import { ConfigsApi, HttpClient } from '../abstractions';
 
-@SupportsInjection
-export class ConfigsApi {
-    @Inject(HttpClient) private readonly http!: HttpClient
+@Injectable()
+export class DefaultConfigsApi implements ConfigsApi {
+    constructor(@Inject('HttpClient') private http: HttpClient) { }
 
     async addConfiguration(projName: string, envName: string): Promise<Configuration> {
         const req = {
@@ -14,7 +13,7 @@ export class ConfigsApi {
         };
 
         const res = await this.http.post<ConfigurationDto>(`projects/${projName}/configs`, req);
-        return new Configuration(res.data.environment, res.data.data);
+        return new Configuration(res.environment, res.data);
     }
 
     async removeConfiguration(projName: string, envName: string): Promise<void> {

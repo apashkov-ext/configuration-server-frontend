@@ -18,19 +18,19 @@ export default class NewItem extends Vue {
 
   private value = '';
 
-  public onEnter(event: any) {
+  onEnter(event: any) {
     this.commit(this.value);
     event.target && event.target.blur();   
   }
 
-  public onKeyDown(event: KeyboardEvent) {
+  onKeyDown(event: KeyboardEvent) {
     if (event.key === ' ') {
         event.preventDefault();
         return;
     }
   }
 
-  public onEsc() {
+  onEsc() {
     this.value = '';
   }
 

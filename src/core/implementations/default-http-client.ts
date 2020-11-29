@@ -1,12 +1,14 @@
 import { AxiosInstance } from 'axios';
 import axios from 'axios';
-import { Injectable } from '../di/decorators/injectable';
+import { Inject, Injectable } from 'di-corate';
+import { HttpClient } from '../abstractions';
+import { Toastr } from '../abstractions/toastr';
 
 @Injectable()
-export class HttpClient {
+export class DefaultHttpClient implements HttpClient {
     private readonly instance: AxiosInstance;
 
-    constructor() {
+    constructor(@Inject('Toastr') private readonly toastr: Toastr) {
         this.instance = axios.create({
             baseURL: process.env.VUE_APP_API_URL,
             headers: {
@@ -17,24 +19,26 @@ export class HttpClient {
 
         this.instance.interceptors.response.use(response => response, error => {
             const message = this.getMessage(error);
-            // Toast.toastError(message, this);
+            this.toastr.error(message);
         });
     }
 
-    get get() {
-        return this.instance.get;
+    async get<T>(url: string): Promise<T> {
+        const resp =  await this.instance.get<T>(url);
+        return resp.data;
     }
 
-    get post() {
-        return this.instance.post;
+    async post<T>(url: string, data?: any): Promise<T> {
+        const resp =  await this.instance.post<T>(url, data);
+        return resp.data;
     }
 
-    get put() {
-        return this.instance.put;
+    async put(url: string, data?: any): Promise<void> {
+        await this.instance.put(url, data);
     }
-
-    get delete() {
-        return this.instance.delete;
+    
+    async delete(url: string): Promise<void> {
+        await this.instance.delete(url);
     }
 
     private getMessage(e: any): string {

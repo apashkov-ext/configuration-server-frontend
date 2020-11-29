@@ -106,23 +106,23 @@ export default class Sidebar extends Vue {
   @Prop() projects!: Project[];
   @Prop() disabled!: boolean;
 
-  public select(projName: string, cfg: Configuration) {
+  select(projName: string, cfg: Configuration) {
     this.$emit('onSelectConfig', { projectName: projName, configName: cfg.environment, data: cfg.data });
   }
 
-  public createProject(name: string) {
+  createProject(name: string) {
     this.$emit('onCreateProject', { projectName: name });
   }
 
-  public deleteProject(name: string) {
+  deleteProject(name: string) {
     this.$emit('onDeleteProject', { projectName: name });
   }
 
-  public addConfig(projName: string, cfgName: string) {
+  addConfig(projName: string, cfgName: string) {
     this.$emit('onAddConfig', { projectName: projName, configName: cfgName });
   }
 
-  public removeConfig(projName: string, cfgName: string) {
+  removeConfig(projName: string, cfgName: string) {
     this.$emit('onRemoveConfig', { projectName: projName, configName: cfgName });
   }
 }

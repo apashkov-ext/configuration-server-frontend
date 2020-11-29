@@ -20,12 +20,12 @@ export default class Notification extends Vue {
     @Prop() message!: string;
     @Prop() resolveFn!: (value?: boolean | PromiseLike<boolean> | undefined) => void;
 
-    private ok() {
+    ok() {
         this.resolveFn(true);
         this.close();
     }
 
-    private close() {
+    close() {
         this.$destroy();
         this.$el.remove();
     }

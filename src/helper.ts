@@ -9,5 +9,3 @@ export class Helper {
         return sha256(str);
     }
 }
-
-export default Helper;
