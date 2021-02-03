@@ -1,5 +1,6 @@
 import { OptionDto } from '@/types/dto/option-dto';
 import { OptionGroupDto } from '@/types/dto/option-group-dto';
+import { OptionValueType } from '@/types/option-value-type.enum';
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import OptionGroupView from './option-group-view/option-group-view.vue'
 
@@ -18,11 +19,13 @@ export class ConfigBuilder extends Vue {
                         options: [
                             <OptionDto>{
                                 name: 'variable1',
-                                value: 888
+                                value: 888,
+                                type: OptionValueType.Number
                             },
                             <OptionDto>{
                                 name: 'var2',
-                                value: true
+                                value: true,
+                                type: OptionValueType.Boolean
                             }
                         ]
                     }
@@ -30,11 +33,13 @@ export class ConfigBuilder extends Vue {
                 options: [
                     <OptionDto>{
                         name: 'varString',
-                        value: 'hello'
+                        value: 'hello',
+                        type: OptionValueType.String
                     },
                     <OptionDto>{
                         name: 'varNumb',
-                        value: 34
+                        value: 34,
+                        type: OptionValueType.Number
                     }
                 ]
             }

@@ -1,7 +1,11 @@
 <template>
   <div v-if="content">
 
-    <span>{{content.name}}: {{content.value}}</span>
+    <span>{{content.name}}: </span>
+    <option-value-view :value="content.value" 
+      :type="content.type" 
+      @change="changeOptionValue($event)">
+    </option-value-view>
 
   </div>
 </template>
@@ -12,6 +16,5 @@ export default OptionView;
 </script>
 
 <style lang="scss">
-@import '@/assets/variables.scss';
 
 </style>

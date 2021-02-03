@@ -1,14 +1,16 @@
 <template>
-  <b-input class="new-item-input" :placeholder="placeholder || ''" v-model="value" v-bind:maxlength="maxLength" 
+  <div>
+    <b-input class="new-item-input" :placeholder="placeholder || ''" v-model="value" v-bind:maxlength="maxLength" 
       @keydown.native.enter="onEnter($event)" 
       @keydown.native.esc="onEsc()"
       @keydown.native="onKeyDown($event)"
       @blur="onEsc()">
   </b-input>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 
 @Component
 export default class NewItem extends Vue {

@@ -7,11 +7,14 @@
       <span v-if="content.name" class="prop-name">{{content.name}} </span><span v-if="expanded">{</span><span v-else>{...}</span>  
     </div> 
 
-    <div v-if="expanded" >
+    <div v-show="expanded" >
       <div class="content code-group">
 
         <template v-for="(option, oIndex) in content.options">
-          <option-view class="code-tab" :key="'option' + oIndex" :content="option"></option-view>
+          <option-view class="code-tab" 
+            :key="'option' + oIndex" 
+            :content="option">
+          </option-view>
         </template>
 
         <template v-for="(nested, nIndex) in content.nestedGroups">
