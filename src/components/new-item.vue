@@ -9,7 +9,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import { Configuration } from '../../types/configuration';
 
 @Component
 export default class NewItem extends Vue {

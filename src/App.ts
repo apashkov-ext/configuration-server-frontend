@@ -1,6 +1,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Sidebar from '@/components/sidebar/sidebar.vue';
 import ContentEditor from '@/components/content-editor/content-editor.vue';
+import ConfigBuilder from '@/components/config-builder/config-builder.vue';
 import { Project, DataView } from '@/types';
 import { AddConfigEvent, SelectConfigEvent, ProjectEvent, ChangeConfigEvent, RemoveConfigEvent } from '@/types/events';
 import { Modals } from '@/components/modals';
@@ -9,7 +10,7 @@ import { PropInject } from 'di-corate';
 import { ConfigsApi, ProjectsApi, Toastr } from './core/abstractions';
 
 @Component({
-  components: { Sidebar, ContentEditor}
+  components: { Sidebar, ContentEditor, ConfigBuilder }
 })
 export class App extends Vue {
   @PropInject('ProjectsApi') private readonly projectsApi!: ProjectsApi;

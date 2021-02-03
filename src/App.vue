@@ -15,12 +15,13 @@
         </sidebar>
       </b-col>
       <b-col class="editor-col" align-self="stretch">
-        <content-editor 
+        <!-- <content-editor 
           v-if="selected"
           :data="selected" 
           :disabled="uiState.editor.disabled"
           @onChange="changeConfig($event)">
-        </content-editor>
+        </content-editor> -->
+        <config-builder></config-builder>
       </b-col>
     </b-row>
     
@@ -34,7 +35,7 @@ export default App
 </script>
 
 <style lang="scss">
-@import "@/assets/variables.scss";
+@import '@/assets/variables.scss';
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'node_modules/bootstrap-vue/src/index.scss';
 

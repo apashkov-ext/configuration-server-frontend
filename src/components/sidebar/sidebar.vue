@@ -97,7 +97,7 @@
 import { Component, Vue, Emit, Prop } from "vue-property-decorator";
 import { Project } from "@/types/project";
 import { Configuration } from "@/types/configuration";
-import NewItem from "@/components/sidebar/new-item.vue";
+import NewItem from "@/components/new-item.vue";
 
 @Component({
   components: { NewItem }
