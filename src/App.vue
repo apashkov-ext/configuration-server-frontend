@@ -1,28 +1,17 @@
 <template>
-<b-overlay :show="uiState.global.busy" rounded="sm">
+<b-overlay :show="isBusy" rounded="sm">
   <b-container fluid class="main-wrapper">
     
       <b-row>
+        
       <b-col class="sidebar-col" align-self="stretch">
-        <sidebar 
-          :projects="projects"
-          :disabled="uiState.sidebar.disabled"
-          @onSelectConfig="selectConfig($event)"
-          @onCreateProject="createProject($event)"
-          @onDeleteProject="deleteProject($event)"
-          @onAddConfig="addConfig($event)"
-          @onRemoveConfig="removeConfig($event)">
-        </sidebar>
+        <sidebar @selectEnv="selectEnv($event)"></sidebar>
       </b-col>
+
       <b-col class="editor-col" align-self="stretch">
-        <!-- <content-editor 
-          v-if="selected"
-          :data="selected" 
-          :disabled="uiState.editor.disabled"
-          @onChange="changeConfig($event)">
-        </content-editor> -->
-        <config-builder></config-builder>
+        <config-editor :content="selectedOptionGroup"></config-editor>
       </b-col>
+
     </b-row>
     
   </b-container>
@@ -31,7 +20,7 @@
 
 <script lang="ts">
 import { App } from './App';
-export default App
+export default App;
 </script>
 
 <style lang="scss">

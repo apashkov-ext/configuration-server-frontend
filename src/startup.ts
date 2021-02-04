@@ -1,10 +1,11 @@
 import { addSingletone } from 'di-corate';
-import { DefaultConfigsApi } from './core/implementations/default-configs-api';
-import { DefaultHttpClient } from './core/implementations/default-http-client';
-import { DefaultProjectsApi } from './core/implementations/default-projects-api';
-import { DefaultToastr } from './core/implementations/default-toastr';
+import { register } from 'di-corate/lib/registry';
+import { ProjectsApi } from './components/sidebar/projects-api';
+import { BusyOverlay } from './core/busy-overlay';
+import { HttpClient } from './core/http-client';
+import { Toastr } from './core/toastr';
 
-addSingletone('HttpClient', DefaultHttpClient);
-addSingletone('ProjectsApi', DefaultProjectsApi);
-addSingletone('ConfigsApi', DefaultConfigsApi);
-addSingletone('Toastr', DefaultToastr);
+register(HttpClient);
+register(ProjectsApi);
+addSingletone('Toastr', Toastr);
+addSingletone('BusyOverlay', BusyOverlay);
