@@ -53,8 +53,4 @@ export default class NewItem extends Vue {
     box-shadow: none !important;
   }
 }
-
-// .new-item-input:focus {
-//     border: none !important;
-//   }
 </style>

@@ -1,24 +1,29 @@
 <template>
 
   <div>
-    <span>{{name}}: [</span>
-    <div>
+    <expandable-code-group :name="name" openBracket="[" closeBracket="]">
+
       <template v-for="(element, cIndex) in content">
 
         <string-value-view v-if="elementsType === 'string'" class="arr-element"
           :key="'str-elem-view' + cIndex"
           :content="element" 
-          @change="changeElem($event, cIndex)">
+          @changeValue="changeElem($event, cIndex)">
         </string-value-view>
 
         <number-value-view v-else-if="elementsType === 'number'" class="arr-element"
           :key="'numb-elem-view' + cIndex"
           :content="element" 
-          @change="changeElem($event, cIndex)">
+          @changeValue="changeElem($event, cIndex)">
         </number-value-view>
 
       </template>
-    </div>
+
+      <div class="add-prop-wrapper">
+        <new-item class="add-prop" max-length="128" placeholder="add value..." @onCommit="addValue($event)" ></new-item>
+      </div>
+      
+    </expandable-code-group>
   </div>
 
 </template>
@@ -29,10 +34,12 @@ export default ArrayValueView;
 </script>
 
 <style lang="scss">
+@import '@/assets/variables.scss';
   .arr-element {
     input {
       padding-top: 0 !important;
       padding-bottom: 0 !important;
+      margin-left: $code-tab !important;
     }
   }
 </style>

@@ -1,8 +1,11 @@
 <template>
 
-  <div>
-    <span v-if="name">{{name}}: </span>
-      <b-input class="string-val-input" 
+  <div class="d-flex align-items-stretch">
+
+    <div v-if="name" class='opt-name'>{{name}}:</div>
+
+    <div class="opt-value">
+      <b-input class="val-input" 
         type="text"
         v-quotes
         v-model="temp"
@@ -12,6 +15,7 @@
         @blur="commit(temp)"
         ref="valueInput">
       </b-input>
+    </div>
 
   </div>
 
@@ -23,12 +27,5 @@ export default StringValueView;
 </script>
 
 <style lang="scss">
-.string-val-input {
-  border: none !important;
-  background-color:rgba(0, 0, 0, 0) !important;
-  &:focus {
-    box-shadow: none !important;
-  }
-}
 
 </style>

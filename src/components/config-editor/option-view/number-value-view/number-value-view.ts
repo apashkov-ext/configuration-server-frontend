@@ -26,11 +26,11 @@ export class NumberValueView extends Vue {
     commit(val: any) {
         this.editorMode = false;
         this.blur();
-        if (this.content === val) {
+        if (this.content === +val) {
             return;
         }
         
-        this.$emit('change', <ChangeValueEvent<number>>{ oldValue: this.content, newValue: +val });
+        this.$emit('changeValue', <ChangeValueEvent<number>>{ oldValue: this.content, newValue: +val });
     }
 
     private blur() {

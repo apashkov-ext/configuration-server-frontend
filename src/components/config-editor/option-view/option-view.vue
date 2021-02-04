@@ -2,33 +2,33 @@
 
   <div v-if="content">
 
-    <string-value-view v-if="content.type === OptionValueType.String" 
+    <string-value-view v-if="content.type === OptionValueType.String" class="code-tab"
       :content="content.value" 
       :name="content.name"
-      @change="changeValue($event)"></string-value-view>
+      @changeValue="changeValue($event)"></string-value-view>
 
-    <number-value-view v-else-if="content.type === OptionValueType.Number" 
+    <number-value-view v-else-if="content.type === OptionValueType.Number" class="code-tab"
       :content="content.value" 
       :name="content.name"
-      @change="changeValue($event)"></number-value-view>
+      @changeValue="changeValue($event)"></number-value-view>
 
-    <boolean-value-view v-else-if="content.type === OptionValueType.Boolean" 
+    <boolean-value-view v-else-if="content.type === OptionValueType.Boolean" class="code-tab" 
       :content="content.value" 
       :name="content.name"
-      @change="changeValue($event)"></boolean-value-view>
+      @changeValue="changeValue($event)"></boolean-value-view>
     
     <array-value-view v-else-if="content.type === OptionValueType.StringArray" 
       :content="content.value" 
       :name="content.name"
       :elementsType="'string'"
-      @change="changeValue($event)">
+      @changeValue="changeValue($event)">
     </array-value-view>
 
     <array-value-view v-else-if="content.type === OptionValueType.NumberArray" 
       :content="content.value" 
       :name="content.name"
       :elementsType="'number'"
-      @change="changeValue($event)">
+      @changeValue="changeValue($event)">
     </array-value-view>
 
 </div>
