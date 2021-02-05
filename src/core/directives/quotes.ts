@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { tryGetInput } from './try-get-input';
 
 function hasQuotes(val: string) {
     return val[0] === "'" && val[val.length - 1] === "'";
@@ -40,24 +41,23 @@ function filterQuotes(e: KeyboardEvent) {
 
 Vue.directive('quotes', {
     bind(el, binding) {
-        if (!(el instanceof HTMLInputElement)) {
-            throw new Error('Invalid directive using: quotes');
-        }
-        el.addEventListener('focusin', removeQuotes);
-        el.addEventListener('focusout', addQuotes);
-        el.addEventListener('keydown', filterQuotes);
+        const inp = tryGetInput(el);
+        inp.addEventListener('focusin', removeQuotes);
+        inp.addEventListener('focusout', addQuotes);
+        inp.addEventListener('keydown', filterQuotes);
     },
     inserted(el, binding) {
-        const elem = el as HTMLInputElement;
-        if (!isNull(elem.value) && !hasQuotes(elem.value)) {
+        const inp = tryGetInput(el);
+        if (!isNull(inp.value) && !hasQuotes(inp.value)) {
             var ev = new Event('input', { bubbles: false })
-            elem.value = `'${elem.value}'`;
-            el.dispatchEvent(ev);
+            inp.value = `'${inp.value}'`;
+            inp.dispatchEvent(ev);
         }
     },
     unbind(el) {
-        el.removeEventListener('focusin', removeQuotes);
-        el.removeEventListener('focusout', addQuotes);
-        el.removeEventListener('keydown', filterQuotes);
+        const inp = tryGetInput(el);
+        inp.removeEventListener('focusin', removeQuotes);
+        inp.removeEventListener('focusout', addQuotes);
+        inp.removeEventListener('keydown', filterQuotes);
     }
 });

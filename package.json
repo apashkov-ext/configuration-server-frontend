@@ -17,6 +17,7 @@
     "rxjs": "^6.6.3",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
+    "vue-input-autowidth": "^1.0.10",
     "vue-property-decorator": "^8.4.2"
   },
   "devDependencies": {

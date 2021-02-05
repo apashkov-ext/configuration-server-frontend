@@ -3,7 +3,6 @@
     <b-input class="new-item-input" :placeholder="placeholder || ''" v-model="value" v-bind:maxlength="maxLength" 
       @keydown.native.enter="onEnter($event)" 
       @keydown.native.esc="onEsc()"
-      @keydown.native="onKeyDown($event)"
       @blur="onEsc()">
   </b-input>
   </div>
@@ -22,13 +21,6 @@ export default class NewItem extends Vue {
   onEnter(event: any) {
     this.commit(this.value);
     event.target && event.target.blur();   
-  }
-
-  onKeyDown(event: KeyboardEvent) {
-    if (event.key === ' ') {
-        event.preventDefault();
-        return;
-    }
   }
 
   onEsc() {

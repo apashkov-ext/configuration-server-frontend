@@ -4,8 +4,8 @@
     <div>
       <b-badge class="expand-contract" variant="light" v-if="expanded" @click="expanded = !expanded">-</b-badge>
       <b-badge class="expand-contract" variant="light" v-else @click="expanded = !expanded">+</b-badge>
-      <span v-if="name" class="prop-name">{{name}} </span>
-      <span v-if="expanded" class="contracted-view ">{{openBracket}}</span>
+      <property-name v-if="name" :value="name" separator=": " @change="changePropName($event)"></property-name>
+      <span v-if="expanded" class="contracted-view">{{openBracket}}</span>
       <span v-else class="expanded-view" @click="expanded = !expanded">{{openBracket}}...{{closeBracket}}</span>  
     </div> 
 

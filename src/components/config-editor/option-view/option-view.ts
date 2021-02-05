@@ -31,6 +31,12 @@ export class OptionView extends Vue {
         }
     }
 
+    changePropName(e: string) {
+        if (this.content.name !== e) {
+            this.updateOption(e, this.content.description, this.content.value, this.content.type); 
+        }
+    }
+
     private updateOption(name: string, desc: string, val: any, type: OptionValueType) {
         this.busy.showBusy();
         this.api.update(this.content.id, name, desc, val, type);
@@ -43,5 +49,10 @@ export class OptionView extends Vue {
             this.content.value = x.value;
             this.busy.hideBusy();
         })
+    }
+
+    beforeDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 }

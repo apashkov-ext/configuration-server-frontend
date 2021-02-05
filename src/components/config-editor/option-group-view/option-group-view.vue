@@ -1,7 +1,12 @@
 <template>
   <div v-if="content">
 
-    <expandable-code-group :name="content.name" openBracket="{" closeBracket="}">
+    <expandable-code-group 
+      :name="content.name" 
+      openBracket="{" 
+      closeBracket="}" 
+      @changePropName="changeGroupName($event)">
+
       <template v-for="(option, oIndex) in content.options">
         <option-view
           :key="'option' + oIndex" 
@@ -14,8 +19,9 @@
       </template>
 
       <div class="add-prop-wrapper">
-        <new-item class="add-prop" max-length="128" placeholder="add property..." @onCommit="addProperty($event)" ></new-item>
+        <new-item class="add-prop" max-length="128" placeholder="add property..." @onCommit="add($event)" ></new-item>
       </div>
+      
     </expandable-code-group>
   </div>
 </template>

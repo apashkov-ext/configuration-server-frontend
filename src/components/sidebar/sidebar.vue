@@ -55,7 +55,7 @@
                         <b-icon icon="file-earmark-plus"></b-icon>
                       </div>
                       <div class="add-env-input">
-                        <new-item
+                        <new-item v-nospaces
                           max-length="12" 
                           placeholder="new environment..." 
                           @onCommit="addEnv(item, $event)">
@@ -76,7 +76,7 @@
                 <b-icon icon="folder-plus"></b-icon>
               </div>
               <div class="create-project-input">
-                <new-item
+                <new-item v-nospaces
                   max-length="40" 
                   placeholder="new project..." 
                   @onCommit="createProject($event)"></new-item>

@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { tryGetInput } from './try-get-input';
 
 function filterKey(e: KeyboardEvent) {
     // delete, backpsace, tab, escape, enter.
@@ -25,9 +26,11 @@ function filterKey(e: KeyboardEvent) {
 
 Vue.directive('digitsonly', {
     bind(el, binding) {
-        el.addEventListener('keydown', filterKey);
+        const inp = tryGetInput(el);
+        inp.addEventListener('keydown', filterKey);
     },
     unbind(el) {
-        el.removeEventListener('keydown', filterKey);
+        const inp = tryGetInput(el);
+        inp.removeEventListener('keydown', filterKey);
     }
 });

@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <expandable-code-group :name="name" openBracket="[" closeBracket="]">
+    <expandable-code-group :name="name" openBracket="[" closeBracket="]" @changePropName="changePropName($event)">
 
       <template v-for="(element, cIndex) in content">
 
@@ -20,7 +20,12 @@
       </template>
 
       <div class="add-prop-wrapper">
-        <new-item class="add-prop" max-length="128" placeholder="add value..." @onCommit="addValue($event)" ></new-item>
+        <new-item v-if="elementsType === 'string'" class="add-prop" max-length="128" placeholder="add value..." 
+          @onCommit="addValue($event)">
+        </new-item>
+        <new-item v-else-if="elementsType === 'number'" class="add-prop" max-length="128" v-digitsonly placeholder="add value..."
+          @onCommit="addValue($event)">
+        </new-item>
       </div>
       
     </expandable-code-group>
