@@ -30,7 +30,7 @@ export class StringValueView extends Vue {
             return;
         }
         
-        this.$emit('change', <ChangeValueEvent<string>>{ oldValue: this.content, newValue: val });
+        this.$emit('changeValue', <ChangeValueEvent<string>>{ oldValue: this.content, newValue: val });
     }
 
     private blur() {

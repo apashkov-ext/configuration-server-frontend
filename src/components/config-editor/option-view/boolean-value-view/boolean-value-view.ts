@@ -14,6 +14,6 @@ export class BooleanValueView extends Vue {
     value = !!this.content;
 
     change(val: boolean) {
-        this.$emit('change', <ChangeValueEvent<boolean>>{ oldValue: this.content, newValue: val });
+        this.$emit('changeValue', <ChangeValueEvent<boolean>>{ oldValue: this.content, newValue: val });
     }
 }

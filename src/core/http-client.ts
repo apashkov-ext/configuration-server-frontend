@@ -18,10 +18,13 @@ export class HttpClient implements HttpClient {
             }
         });
 
-        this.instance.interceptors.response.use(response => response, error => {
+        this.instance.interceptors.response.use(response => {
+            return response;
+        }, error => {
             const message = this.getMessage(error);
             toastr.error(message);
             busy.hideBusy();
+            return Promise.reject(error);
         });
     }
 
@@ -52,6 +55,18 @@ export class HttpClient implements HttpClient {
             return e.message
         }
 
-        return e.response.data.message;
+        return this.aggregateErrors(e.response) || e.message;
+    }
+
+    private aggregateErrors(resp: any): string | null {
+        if (resp.data.message) {
+            return resp.data.message;
+        }
+
+        if (resp.errors && Array.isArray(resp.errors) && resp.errors.length) {
+            return resp.errors[0] as string;
+        }
+
+        return null;
     }
 }

@@ -27,13 +27,13 @@ export class OptionView extends Vue {
 
     changeValue(e: ChangeValueEvent<any>) {
         if (e.oldValue !== e.newValue) {
-            this.updateOption(this.content.name, this.content.description, e.newValue); 
+            this.updateOption(this.content.name, this.content.description, e.newValue, this.content.type); 
         }
     }
 
-    private updateOption(name: string, desc: string, val: any) {
+    private updateOption(name: string, desc: string, val: any, type: OptionValueType) {
         this.busy.showBusy();
-        this.api.update(this.content.id, name, desc, val);
+        this.api.update(this.content.id, name, desc, val, type);
     }
 
     created() {

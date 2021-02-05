@@ -4,5 +4,5 @@ export interface UpdateOptionDto {
     name: string;
     description: string;
     value: any;
-    type?: OptionValueType;
+    type: OptionValueType;
 }
