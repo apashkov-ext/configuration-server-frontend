@@ -1,9 +1,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export class PropertyName extends Vue {
+export class EditableLabel extends Vue {
     @Prop() value!: string;
-    @Prop() separator!: string;
+    @Prop() tooltip!: string;
+
+    private get el(): HTMLInputElement {
+        return (this.$refs.valueInput as any).$el as HTMLInputElement;
+    }
 
     editorMode = false;
     temp = this.value;
@@ -35,22 +39,16 @@ export class PropertyName extends Vue {
         this.$emit('change', val);
     }
 
-    resize() {
-        const el = (this.$refs.valueInput as any).$el as HTMLInputElement;
-        el.width = el.width + 5;
-    }
-
     private focus() {
         this.$nextTick(() => (this.$refs.valueInput as any).$el.focus());
     }
 
     private blur() {
-        (this.$refs.valueInput as any).$el.blur();
+        this.el.blur();
     }
 
     private input(val: string) {
-        const el = (this.$refs.valueInput as any).$el as HTMLInputElement;
-        el.value = val;
-        el.dispatchEvent(new Event('input'));
+        this.el.value = val;
+        this.el.dispatchEvent(new Event('input'));
     }
 }

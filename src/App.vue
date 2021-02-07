@@ -9,7 +9,7 @@
       </b-col>
 
       <b-col class="editor-col" align-self="stretch">
-        <config-editor :content="selectedOptionGroup"></config-editor>
+        <config-editor :data="selectedOptionGroup"></config-editor>
       </b-col>
 
     </b-row>

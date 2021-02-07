@@ -1,19 +1,21 @@
 <template>
+  <div class="d-flex align-items-stretch value-view-wrapper">
 
-  <div class="d-flex align-items-stretch">
-
-    <div v-if="name" class='opt-name'>{{name}}:</div>
+    <editable-label v-if="name" :value="name" :tooltip="description" @change="changeName($event)"></editable-label>
 
     <div class="opt-value">
       <b-select class="val-input" 
-        v-model="value"
+        v-model="isTrue"
         :options="options"
-        @input="change($event)">
+        @input="changeValue($event)">
       </b-select>
     </div>
 
-  </div>
+    <span @click.stop="deleteOption(env)" title="Delete option" class="delete-option">
+      <b-icon icon="x" aria-label="Delete option"></b-icon>
+    </span>
 
+  </div>
 </template>
 
 <script lang="ts">

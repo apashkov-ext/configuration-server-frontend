@@ -1,7 +1,7 @@
 <template>
   <div class="editor-wrapper">
     <h5>Environment</h5>
-    <option-group-view :content="content"></option-group-view>
+    <option-group-view :data="data"></option-group-view>
   </div>
 </template>
 
@@ -29,6 +29,7 @@ export default ConfigEditor;
   background-color:rgba(0, 0, 0, 0) !important;
   background-image: none !important;
   padding: 0 !important;
+  margin-left: 10px;
 
   &:hover,
   &:focus {
@@ -41,5 +42,26 @@ export default ConfigEditor;
 
   height: 26px !important;
 }
+
+.value-view-wrapper {
+  .delete-option {
+    display: none;
+    cursor: pointer;
+    margin-left: 20px;
+
+    &:hover {
+      color: red;
+      font-weight: bold !important;
+    }
+  }
+
+  &:hover {
+    .delete-option {
+      display:initial;
+    }
+  }
+}
+
+
 
 </style>

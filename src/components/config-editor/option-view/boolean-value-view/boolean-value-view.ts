@@ -1,19 +1,25 @@
-import { ChangeValueEvent } from '@/types/events/change-value-event';
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import EditableLabel from '@/components/editable-label/editable-label.vue';
 
-@Component
+@Component({
+    components: { EditableLabel }
+})
 export class BooleanValueView extends Vue {
     @Prop() name!: string;
-    @Prop() content!: boolean;
+    @Prop() value!: boolean;
+    @Prop() description!: string;
 
     options = [
         { value: false, text: 'false' },
         { value: true, text: 'true' }
     ];
 
-    value = !!this.content;
+    isTrue = !!this.value;
 
-    change(val: boolean) {
-        this.$emit('changeValue', <ChangeValueEvent<boolean>>{ oldValue: this.content, newValue: val });
+    changeValue(val: boolean) {
+        this.$emit('changeValue', val);
+    }
+    changeName(e: string) {
+        this.$emit('changeName', e);
     }
 }

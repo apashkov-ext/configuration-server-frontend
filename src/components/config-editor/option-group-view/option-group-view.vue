@@ -1,21 +1,22 @@
 <template>
-  <div v-if="content">
+  <div v-if="data">
 
     <expandable-code-group 
-      :name="content.name" 
+      :name="data.name" 
+      :tooltip="data.description"
       openBracket="{" 
       closeBracket="}" 
-      @changePropName="changeGroupName($event)">
+      @changeName="changeGroupName($event)">
 
-      <template v-for="(option, oIndex) in content.options">
+      <template v-for="(option, oIndex) in data.options">
         <option-view
           :key="'option' + oIndex" 
-          :content="option">
+          :data="option">
         </option-view>
       </template>
 
-      <template v-for="(nested, nIndex) in content.nestedGroups">
-        <option-group-view :key="'nested' + nIndex" :content="nested"></option-group-view>
+      <template v-for="(nested, nIndex) in data.nestedGroups">
+        <option-group-view :key="'nested' + nIndex" :data="nested"></option-group-view>
       </template>
 
       <div class="add-prop-wrapper">

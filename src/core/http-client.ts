@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Inject, Injectable } from 'di-corate';
 import { BusyOverlay } from './busy-overlay';
 import { Toastr } from './toastr';
+import { getErrorMessage } from './get-error-message';
 
 @Injectable()
 export class HttpClient implements HttpClient {
@@ -18,55 +19,36 @@ export class HttpClient implements HttpClient {
             }
         });
 
-        this.instance.interceptors.response.use(response => {
-            return response;
-        }, error => {
-            const message = this.getMessage(error);
-            toastr.error(message);
-            busy.hideBusy();
-            return Promise.reject(error);
-        });
+        this.instance.interceptors.response.use(
+            response => response,
+            error => {
+                // if( error.config.hasOwnProperty('errorHandle') && error.config.errorHandle === false ) {
+                //     return Promise.reject(error);
+                // }
+                const message = getErrorMessage(error);
+                toastr.error(message);
+                busy.hideBusy();
+                return Promise.reject(error);
+            });
     }
 
-    async get<T>(url: string): Promise<T> {
-        const resp =  await this.instance.get<T>(url);
+    async get<T>(url: string, errorHandled = false): Promise<T> {
+        const resp =  await this.instance.get<T>(url, { errorHandled } as any);
         return resp.data;
     }
 
-    async post<T>(url: string, data?: any): Promise<T> {
-        const resp =  await this.instance.post<T>(url, data);
+    async post<T>(url: string, data?: any, errorHandled = false): Promise<T> {
+        const resp =  await this.instance.post<T>(url, data, { errorHandled } as any);
         return resp.data;
     }
 
-    async put(url: string, data?: any): Promise<void> {
-        await this.instance.put(url, data);
+    async put(url: string, data?: any, errorHandled = false): Promise<void> {
+        await this.instance.put(url, data, { errorHandled } as any);
     }
     
-    async delete(url: string): Promise<void> {
-        await this.instance.delete(url);
+    async delete(url: string, errorHandled = false): Promise<void> {
+        await this.instance.delete(url, { errorHandled } as any);
     }
 
-    private getMessage(e: any): string {
-        if (e.message === 'Network Error') {
-            return 'Server connection error';
-        }
-
-        if (!e.response) {
-            return e.message
-        }
-
-        return this.aggregateErrors(e.response) || e.message;
-    }
-
-    private aggregateErrors(resp: any): string | null {
-        if (resp.data.message) {
-            return resp.data.message;
-        }
-
-        if (resp.errors && Array.isArray(resp.errors) && resp.errors.length) {
-            return resp.errors[0] as string;
-        }
-
-        return null;
-    }
+    
 }

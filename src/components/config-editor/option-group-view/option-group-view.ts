@@ -1,4 +1,4 @@
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import OptionView from '../option-view/option-view.vue'
 import NewItem from '@/components/new-item.vue'
 import ExpandableCodeGroup from '../expandable-code-group/expandable-code-group.vue'
@@ -12,14 +12,14 @@ import { TemplateParser } from './template-parsing/template-parser';
 import { OptionValueType } from '@/types/option-value-type.enum';
 import { OptionsApi } from '../option-view/options-api';
 import { OptionDto } from '@/types/dto/option-dto';
+import { ComponentWithData } from '@/core/component-with-data';
 
 @Component({
     components: { OptionView, NewItem, ExpandableCodeGroup }
 })
-export class OptionGroupView extends Vue {
+export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
     private unsubscribe = new Subject();
 
-    @Prop() content!: OptionGroupDto;
     @PropInject(OptionGroupsApi) private readonly api!: OptionGroupsApi;
     @PropInject(OptionsApi) private readonly optionsApi!: OptionsApi;
     @PropInject('BusyOverlay') private readonly busy!: BusyOverlay;
@@ -39,21 +39,28 @@ export class OptionGroupView extends Vue {
 
     addNested(name: string) {
         this.busy.showBusy();
-        this.api.create(this.content.id, name);
+        this.api.create(this.data.id, name);
     }
 
     addProperty(name: string, value: any, type: OptionValueType) {
         this.busy.showBusy();
-        this.optionsApi.create(this.content.id, name, '', value, type);
+        this.optionsApi.create(this.data.id, name, '', value, type);
     }
 
     changeGroupName(e: string) {
-        this.content.name = e;
+        this.busy.showBusy();
+        this.backup();
+        this.data.name = e;
+        this.api.update(this.data.id, e, this.data.description);
     }
 
     created() {
+        this.api.onError.pipe(takeUntil(this.unsubscribe)).subscribe(e => {
+            this.rollback();
+        });
+
         this.api.created.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
-            this.content.nestedGroups.push(<OptionGroupDto>{
+            this.data.nestedGroups.push(<OptionGroupDto>{
                 id: x.id,
                 name: x.name,
                 description: x.description,
@@ -64,13 +71,13 @@ export class OptionGroupView extends Vue {
         });
 
         this.api.updated.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
-            this.content.name = x.name;
-            this.content.description = x.description;
+            this.data.name = x.name;
+            this.data.description = x.description;
             this.busy.hideBusy();
         });
 
         this.optionsApi.created.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
-            this.content.options.push(<OptionDto>{
+            this.data.options.push(<OptionDto>{
                 id: x.id,
                 name: x.name,
                 description: x.description,

@@ -1,19 +1,19 @@
 <template>
 
   <div>
-    <expandable-code-group :name="name" openBracket="[" closeBracket="]" @changePropName="changePropName($event)">
+    <expandable-code-group :name="name" :tootip="description" openBracket="[" closeBracket="]" @changeName="changeName($event)">
 
-      <template v-for="(element, cIndex) in content">
+      <template v-for="(element, cIndex) in value">
 
         <string-value-view v-if="elementsType === 'string'" class="arr-element"
           :key="'str-elem-view' + cIndex"
-          :content="element" 
+          :value="element" 
           @changeValue="changeElem($event, cIndex)">
         </string-value-view>
 
         <number-value-view v-else-if="elementsType === 'number'" class="arr-element"
           :key="'numb-elem-view' + cIndex"
-          :content="element" 
+          :value="element" 
           @changeValue="changeElem($event, cIndex)">
         </number-value-view>
 

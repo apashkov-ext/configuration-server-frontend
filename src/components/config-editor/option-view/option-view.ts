@@ -12,41 +12,50 @@ import StringValueView from './string-value-view/string-value-view.vue';
 import NumberValueView from './number-value-view/number-value-view.vue';
 import BooleanValueView from './boolean-value-view/boolean-value-view.vue';
 import ArrayValueView from './array-value-view/array-value-view.vue';
+import { ComponentWithData } from '@/core/component-with-data';
 
 @Component({
     components: { NewItem, StringValueView, NumberValueView, BooleanValueView, ArrayValueView }
 })
-export class OptionView extends Vue {
+export class OptionView extends ComponentWithData<OptionDto> {
     private unsubscribe = new Subject();
 
-    @Prop() content!: OptionDto;
     @PropInject('BusyOverlay') private readonly busy!: BusyOverlay;
     @PropInject(OptionsApi) private readonly api!: OptionsApi;
 
     OptionValueType = OptionValueType;
 
-    changeValue(e: ChangeValueEvent<any>) {
-        if (e.oldValue !== e.newValue) {
-            this.updateOption(this.content.name, this.content.description, e.newValue, this.content.type); 
+    changeValue(e: any) {
+        if (this.data.value !== e) {
+            this.updateOption(this.data.name, this.data.description, e.newValue, this.data.type);
         }
     }
 
-    changePropName(e: string) {
-        if (this.content.name !== e) {
-            this.updateOption(e, this.content.description, this.content.value, this.content.type); 
+    changeName(e: string) {
+        if (this.data.name !== e) {
+            this.updateOption(e, this.data.description, this.data.value, this.data.type); 
         }
     }
 
     private updateOption(name: string, desc: string, val: any, type: OptionValueType) {
         this.busy.showBusy();
-        this.api.update(this.content.id, name, desc, val, type);
+        this.backup();
+        this.data.name = name;
+        this.data.description = desc;
+        this.data.value = val;
+        this.data.type = type;
+        this.api.update(this.data.id, name, desc, val, type);
     }
 
     created() {
+        this.api.onError.pipe(takeUntil(this.unsubscribe)).subscribe(e => {
+            this.rollback();
+        });
+
         this.api.updated.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
-            this.content.name = x.name;
-            this.content.description = x.description;
-            this.content.value = x.value;
+            this.data.name = x.name;
+            this.data.description = x.description;
+            this.data.value = x.value;
             this.busy.hideBusy();
         })
     }

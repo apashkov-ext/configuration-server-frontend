@@ -1,39 +1,45 @@
 <template>
 
-  <div v-if="content">
+  <div v-if="data">
 
-    <string-value-view v-if="content.type === OptionValueType.String" class="code-tab"
-      :content="content.value" 
-      :name="content.name"
+    <string-value-view v-if="data.type === OptionValueType.String" class="code-tab"
+      :value="data.value" 
+      :name="data.name"
+      :description="data.description"
       @changeValue="changeValue($event)"
-      @changePropName="changePropName($event)"></string-value-view>
+      @changeName="changeName($event)"></string-value-view>
 
-    <number-value-view v-else-if="content.type === OptionValueType.Number" class="code-tab"
-      :content="content.value" 
-      :name="content.name"
+    <number-value-view v-if="data.type === OptionValueType.Number" class="code-tab"
+      :value="data.value" 
+      :name="data.name"
+      :description="data.description"
       @changeValue="changeValue($event)"
-      @changePropName="changePropName($event)"></number-value-view>
+      @changeName="changeName($event)">
+    </number-value-view>
 
-    <boolean-value-view v-else-if="content.type === OptionValueType.Boolean" class="code-tab" 
-      :content="content.value" 
-      :name="content.name"
+    <boolean-value-view v-if="data.type === OptionValueType.Boolean" class="code-tab" 
+      :value="data.value" 
+      :name="data.name"
+      :description="data.description"
       @changeValue="changeValue($event)"
-      @changePropName="changePropName($event)"></boolean-value-view>
+      @changeName="changeName($event)"></boolean-value-view>
     
-    <array-value-view v-else-if="content.type === OptionValueType.StringArray" 
-      :content="content.value" 
-      :name="content.name"
+    <array-value-view v-if="data.type === OptionValueType.StringArray" 
+      :value="data.value" 
+      :name="data.name"
+      :description="data.description"
       elementsType="string"
       @changeValue="changeValue($event)"
-      @changePropName="changePropName($event)">
+      @changeName="changeName($event)">
     </array-value-view>
 
-    <array-value-view v-else-if="content.type === OptionValueType.NumberArray" 
-      :content="content.value" 
-      :name="content.name"
+    <array-value-view v-if="data.type === OptionValueType.NumberArray" 
+      :value="data.value" 
+      :name="data.name"
+      :description="data.description"
       elementsType="number"
       @changeValue="changeValue($event)"
-      @changePropName="changePropName($event)">
+      @changeName="changeName($event)">
     </array-value-view>
 
 </div>

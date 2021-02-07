@@ -1,17 +1,18 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import PropertyName from '@/components/config-editor/property-name/property-name.vue';
+import EditableLabel from '@/components/editable-label/editable-label.vue';
 
 @Component({
-    components: { PropertyName }
+    components: { EditableLabel }
 })
 export class ExpandableCodeGroup extends Vue {
     @Prop() name!: string;
     @Prop() openBracket!: string;
     @Prop() closeBracket!: string;
+    @Prop() tooltip!: string;
 
     expanded = true;
 
-    changePropName(e: string) {
-        this.$emit('changePropName', e);
+    changeName(e: string) {
+        this.$emit('changeName', e);
     }
 }

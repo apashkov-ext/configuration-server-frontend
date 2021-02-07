@@ -4,35 +4,38 @@ import StringValueView from '../string-value-view/string-value-view.vue';
 import NumberValueView from '../number-value-view/number-value-view.vue';
 import ExpandableCodeGroup from '../../expandable-code-group/expandable-code-group.vue';
 import NewItem from '@/components/new-item.vue';
+import EditableLabel from '@/components/editable-label/editable-label.vue';
 
 type ElementType = 'string' | 'number';
 
 @Component({
-    components: { StringValueView, NumberValueView, ExpandableCodeGroup, NewItem }
+    components: { StringValueView, NumberValueView, ExpandableCodeGroup, NewItem, EditableLabel }
 })
 export class ArrayValueView extends Vue {
     @Prop() name!: string;
-    @Prop() content!: any[];
+    @Prop() value!: any[];
     @Prop() elementsType!: ElementType;
+    @Prop() description!: string;
 
     changeElem(elem: ChangeValueEvent<any>, index: number) {
-        const changed = this.content.slice();
+        const changed = this.value.slice();
         if (elem.oldValue !== elem.newValue) {
             changed[index] = elem.newValue;
         }
         
-        this.$emit('changeValue', <ChangeValueEvent<any[]>>{ oldValue: this.content, newValue: changed });
+        this.$emit('changeValue', changed);
     }
 
     addValue(value: string) {
         const converted = this.convertToType(value, this.elementsType);
-        const changed = this.content.slice();
+        const changed = this.value.slice();
         changed.push(converted);
 
-        this.$emit('changeValue', <ChangeValueEvent<any[]>>{ oldValue: this.content, newValue: changed });
+        this.$emit('changeValue', changed);
     }
-    changePropName(e: string) {
-        this.$emit('changePropName', e);
+
+    changeName(e: string) {
+        this.$emit('changeName', e);
     }
 
     private convertToType(val: string, type: ElementType): any {
