@@ -7,15 +7,12 @@
       closeBracket="}"
       @changeName="changeGroupName($event)"
     >
-      <template v-for="(option, oIndex) in data.options">
-        <option-view :key="'option' + oIndex" :data="option"> </option-view>
+      <template v-for="option in data.options">
+        <option-view :key="option.id" :data="option"> </option-view>
       </template>
 
-      <template v-for="(nested, nIndex) in data.nestedGroups">
-        <option-group-view
-          :key="'nested' + nIndex"
-          :data="nested"
-        ></option-group-view>
+      <template v-for="nested in data.nestedGroups">
+        <option-group-view :key="nested.id" :data="nested"></option-group-view>
       </template>
 
       <div class="add-prop-wrapper">

@@ -69,7 +69,7 @@ export class TemplateParser {
   parse(input: string): TemplateParsingResult | undefined {
     const trimmed = (input || '').trim();
     const sorted = TemplateParser.templates.sort((l, r) =>
-      l === r ? 0 : l > r ? 1 : -1
+      l.priority === r.priority ? 0 : l.priority > r.priority ? 1 : -1
     );
 
     for (let i = 0; i < sorted.length; i++) {
