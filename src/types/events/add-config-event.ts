@@ -1,4 +1,4 @@
 export interface AddConfigEvent {
-    projectName: string;
-    configName: string;
+  projectName: string;
+  configName: string;
 }

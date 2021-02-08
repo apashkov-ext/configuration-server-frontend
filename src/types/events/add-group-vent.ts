@@ -1,3 +1,3 @@
 export interface AddGroupEvent {
-    name: string;
+  name: string;
 }

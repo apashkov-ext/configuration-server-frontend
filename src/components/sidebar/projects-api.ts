@@ -8,33 +8,38 @@ import { CreatedProjectDto } from './dto/created-project-dto';
 
 @Injectable()
 export class ProjectsApi {
-    private _projectsRetrieved = new Subject<ProjectDto[]>();
-    get projectsRetrieved() {
-        return this._projectsRetrieved.asObservable();
-    }
+  private _projectsRetrieved = new Subject<ProjectDto[]>();
+  get projectsRetrieved() {
+    return this._projectsRetrieved.asObservable();
+  }
 
-    private _created = new Subject<CreatedProjectDto>();
-    get created() {
-        return this._created.asObservable();
-    }
+  private _created = new Subject<CreatedProjectDto>();
+  get created() {
+    return this._created.asObservable();
+  }
 
-    constructor(@Inject(HttpClient) private http: HttpClient) { }
+  constructor(@Inject(HttpClient) private http: HttpClient) {}
 
-    retrieveProjects() {
-        this.http.get<ProjectDto[]>('projects').then(res => this._projectsRetrieved.next(res));
-    }
-  
-    create(name: string) {
-        const req = <CreateProjectDto>{
-            name
-        };
+  retrieveProjects() {
+    this.http
+      .get<ProjectDto[]>('projects')
+      .then(res => this._projectsRetrieved.next(res));
+  }
 
-        this.http.post<CreatedProjectDto>('projects', req).then(
-            res => this._created.next(res), 
-            e => { throw new RequestException(e.message); });
-    }
-  
-    async deleteProject(name: string): Promise<void> {
-        await this.http.delete(`projects/${name}`);
-    }
+  create(name: string) {
+    const req = {
+      name
+    } as CreateProjectDto;
+
+    this.http.post<CreatedProjectDto>('projects', req).then(
+      res => this._created.next(res),
+      e => {
+        throw new RequestException(e.message);
+      }
+    );
+  }
+
+  async deleteProject(name: string): Promise<void> {
+    await this.http.delete(`projects/${name}`);
+  }
 }

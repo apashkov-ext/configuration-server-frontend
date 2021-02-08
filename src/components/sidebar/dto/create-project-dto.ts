@@ -1,3 +1,3 @@
 export interface CreateProjectDto {
-    name: string;
+  name: string;
 }

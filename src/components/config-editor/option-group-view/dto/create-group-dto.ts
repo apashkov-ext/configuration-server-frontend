@@ -1,5 +1,5 @@
 export interface CreateOptionGroupDto {
-    parent: string;
-    name: string;
-    description?: string;
+  parent: string;
+  name: string;
+  description?: string;
 }

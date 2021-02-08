@@ -1,49 +1,58 @@
 <template>
-
   <div v-if="data">
-
-    <string-value-view v-if="data.type === OptionValueType.String" class="code-tab"
-      :value="data.value" 
+    <string-value-view
+      v-if="data.type === OptionValueType.String"
+      class="code-tab"
+      :value="data.value"
       :name="data.name"
       :description="data.description"
       @changeValue="changeValue($event)"
-      @changeName="changeName($event)"></string-value-view>
+      @changeName="changeName($event)"
+    ></string-value-view>
 
-    <number-value-view v-if="data.type === OptionValueType.Number" class="code-tab"
-      :value="data.value" 
+    <number-value-view
+      v-if="data.type === OptionValueType.Number"
+      class="code-tab"
+      :value="data.value"
       :name="data.name"
       :description="data.description"
       @changeValue="changeValue($event)"
-      @changeName="changeName($event)">
+      @changeName="changeName($event)"
+    >
     </number-value-view>
 
-    <boolean-value-view v-if="data.type === OptionValueType.Boolean" class="code-tab" 
-      :value="data.value" 
+    <boolean-value-view
+      v-if="data.type === OptionValueType.Boolean"
+      class="code-tab"
+      :value="data.value"
       :name="data.name"
       :description="data.description"
       @changeValue="changeValue($event)"
-      @changeName="changeName($event)"></boolean-value-view>
-    
-    <array-value-view v-if="data.type === OptionValueType.StringArray" 
-      :value="data.value" 
+      @changeName="changeName($event)"
+    ></boolean-value-view>
+
+    <array-value-view
+      v-if="data.type === OptionValueType.StringArray"
+      :value="data.value"
       :name="data.name"
       :description="data.description"
       elementsType="string"
       @changeValue="changeValue($event)"
-      @changeName="changeName($event)">
+      @changeName="changeName($event)"
+    >
     </array-value-view>
 
-    <array-value-view v-if="data.type === OptionValueType.NumberArray" 
-      :value="data.value" 
+    <array-value-view
+      v-if="data.type === OptionValueType.NumberArray"
+      :value="data.value"
       :name="data.name"
       :description="data.description"
       elementsType="number"
       @changeValue="changeValue($event)"
-      @changeName="changeName($event)">
+      @changeName="changeName($event)"
+    >
     </array-value-view>
-
-</div>
-
+  </div>
 </template>
 
 <script lang="ts">
@@ -51,6 +60,4 @@ import { OptionView } from './option-view';
 export default OptionView;
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

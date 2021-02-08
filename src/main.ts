@@ -11,8 +11,8 @@ import '@/core/directives/nospaces';
 Vue.use(BootstrapVue);
 Vue.use(ToastPlugin);
 Vue.use(IconsPlugin);
-Vue.use(VueInputAutowidth)
+Vue.use(VueInputAutowidth);
 
 new Vue({
   render: h => h(App)
-}).$mount("#app");
+}).$mount('#app');

@@ -28,7 +28,9 @@ export class Project {
       throw new Error('Empty config');
     }
 
-    const index = this._configurations.findIndex(f => f.environment === config.environment);
+    const index = this._configurations.findIndex(
+      f => f.environment === config.environment
+    );
     if (index !== -1) {
       this._configurations.splice(index, 1);
     }

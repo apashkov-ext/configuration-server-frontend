@@ -9,49 +9,43 @@ import { BusyOverlay } from '@/core/busy-overlay';
 import { EnvironmentDto } from '@/types/dto/environment-dto';
 
 @Component({
-    components: { NewItem }
+  components: { NewItem }
 })
 export class Sidebar extends Vue {
-    private unsubscribe = new Subject();
+  private unsubscribe = new Subject();
 
-    @PropInject('BusyOverlay') private readonly busy!: BusyOverlay;
-    @PropInject(ProjectsApi) private readonly projectsApi!: ProjectsApi;
+  @PropInject('BusyOverlay') private readonly busy!: BusyOverlay;
+  @PropInject(ProjectsApi) private readonly projectsApi!: ProjectsApi;
 
-    projects = new Array<ProjectDto>();
+  projects = new Array<ProjectDto>();
 
-    createProject(name: string) {
+  createProject(name: string) {}
 
-    }
+  deleteProject(p: ProjectDto) {}
 
-    deleteProject(p: ProjectDto) {
+  selectEnv(env: EnvironmentDto) {
+    this.$emit('selectEnv', { env });
+  }
 
-    }
+  addEnv(p: ProjectDto, envName: string) {}
 
-    selectEnv(env: EnvironmentDto) {
-        this.$emit('selectEnv', { env });
-    }
+  removeEnv(env: EnvironmentDto) {}
 
-    addEnv(p: ProjectDto, envName: string) {
+  created() {
+    this.projectsApi.projectsRetrieved
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(p => {
+        this.projects = p;
+        this.busy.hideBusy();
+      });
+  }
 
-    }
+  beforeDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
 
-    removeEnv(env: EnvironmentDto) {
-
-    }
-
-    created() {
-        this.projectsApi.projectsRetrieved.pipe(takeUntil(this.unsubscribe)).subscribe(p => {
-            this.projects = p;
-            this.busy.hideBusy();
-        })
-    }
-
-    beforeDestroy() {
-        this.unsubscribe.next();
-        this.unsubscribe.complete();
-    }
-
-    mounted() {
-        this.projectsApi.retrieveProjects();
-    }
+  mounted() {
+    this.projectsApi.retrieveProjects();
+  }
 }

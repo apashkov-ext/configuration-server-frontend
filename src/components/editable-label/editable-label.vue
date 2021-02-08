@@ -1,8 +1,7 @@
 <template>
   <div class="d-inline" @dblclick="edit()" v-b-tooltip.hover="tooltip || ''">
-     
-    <b-input 
-      v-autowidth="{maxWidth: '400px', minWidth: '20px', comfortZone: 0}"
+    <b-input
+      v-autowidth="{ maxWidth: '400px', minWidth: '20px', comfortZone: 0 }"
       type="text"
       class="label-input"
       v-model="temp"
@@ -10,11 +9,11 @@
       @keydown.native.enter="commit(temp)"
       @keydown.native.esc="cancel()"
       @blur="cancel()"
-      ref="valueInput">
+      ref="valueInput"
+    >
     </b-input>
 
     <span>: </span>
-
   </div>
 </template>
 
@@ -28,7 +27,7 @@ export default EditableLabel;
 
 .label-input {
   border: none !important;
-  background-color:rgba(0, 0, 0, 0) !important;
+  background-color: rgba(0, 0, 0, 0) !important;
   background-image: none !important;
   padding: 0 !important;
   display: inline-block !important;
@@ -47,5 +46,4 @@ export default EditableLabel;
 
   height: 26px !important;
 }
-
 </style>

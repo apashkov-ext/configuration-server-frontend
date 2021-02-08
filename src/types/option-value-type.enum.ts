@@ -1,7 +1,7 @@
 export enum OptionValueType {
-    String,
-    Number,
-    Boolean,
-    StringArray,
-    NumberArray
+  String,
+  Number,
+  Boolean,
+  StringArray,
+  NumberArray
 }

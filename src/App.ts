@@ -79,7 +79,7 @@ export class App extends Vue {
   // }
 
   // async removeConfig(event: RemoveConfigEvent) {
-  //   const confirm = await Modals.showConfirm('Remove config confirmation', 
+  //   const confirm = await Modals.showConfirm('Remove config confirmation',
   //     `Are you sure you want to remove config '${event.configName}' from project '${event.projectName}'?`);
   //   if (!confirm) {
   //     return;
@@ -110,9 +110,11 @@ export class App extends Vue {
   //   this.busyOverlay.showBusy();
   //   this.projects = await this.projectsApi.projects();
   // }
-  
+
   created() {
-    this.busyOverlay.busyChanged.pipe(takeUntil(this.unsubscribe)).subscribe(x => this.isBusy = x);
+    this.busyOverlay.busyChanged
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(x => (this.isBusy = x));
   }
 
   beforeDestroy() {

@@ -8,7 +8,7 @@ export class Configuration {
   public get data(): string {
     return this._data;
   }
-  
+
   constructor(environment: string, data: string) {
     this._environment = environment;
     this._data = data;

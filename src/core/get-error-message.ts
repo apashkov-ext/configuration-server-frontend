@@ -1,23 +1,23 @@
-export function getErrorMessage(e: any): string {
-    if (e.message === 'Network Error') {
-        return 'Server connection error';
-    }
+function aggregateErrors(resp: any): string | null {
+  if (resp.data.message) {
+    return resp.data.message;
+  }
 
-    if (!e.response) {
-        return e.message
-    }
+  if (resp.errors && Array.isArray(resp.errors) && resp.errors.length) {
+    return resp.errors[0] as string;
+  }
 
-    return aggregateErrors(e.response) || e.message;
+  return null;
 }
 
-function aggregateErrors(resp: any): string | null {
-    if (resp.data.message) {
-        return resp.data.message;
-    }
+export function getErrorMessage(e: any): string {
+  if (e.message === 'Network Error') {
+    return 'Server connection error';
+  }
 
-    if (resp.errors && Array.isArray(resp.errors) && resp.errors.length) {
-        return resp.errors[0] as string;
-    }
+  if (!e.response) {
+    return e.message;
+  }
 
-    return null;
+  return aggregateErrors(e.response) || e.message;
 }

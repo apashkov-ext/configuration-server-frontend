@@ -11,7 +11,6 @@ export default ConfigEditor;
 </script>
 
 <style lang="scss">
-
 .opt-value {
   height: 24px;
 }
@@ -26,7 +25,7 @@ export default ConfigEditor;
 
 .val-input {
   border: none !important;
-  background-color:rgba(0, 0, 0, 0) !important;
+  background-color: rgba(0, 0, 0, 0) !important;
   background-image: none !important;
   padding: 0 !important;
   margin-left: 10px;
@@ -57,11 +56,8 @@ export default ConfigEditor;
 
   &:hover {
     .delete-option {
-      display:initial;
+      display: initial;
     }
   }
 }
-
-
-
 </style>

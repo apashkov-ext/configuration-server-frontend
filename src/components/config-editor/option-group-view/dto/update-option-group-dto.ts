@@ -1,4 +1,4 @@
 export interface UpdateOptionGroupDto {
-    name: string;
-    description: string;
+  name: string;
+  description: string;
 }
