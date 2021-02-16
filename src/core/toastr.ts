@@ -1,5 +1,7 @@
+import { Injectable } from 'di-corate';
 import Vue from 'vue';
 
+@Injectable()
 export class Toastr {
   private vm = new Vue({});
 

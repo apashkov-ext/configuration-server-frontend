@@ -9,10 +9,7 @@ import { getErrorMessage } from './get-error-message';
 export class HttpClient implements HttpClient {
   private readonly instance: AxiosInstance;
 
-  constructor(
-    @Inject('Toastr') toastr: Toastr,
-    @Inject('BusyOverlay') busy: BusyOverlay
-  ) {
+  constructor(@Inject(Toastr) toastr: Toastr, @Inject(BusyOverlay) busy: BusyOverlay) {
     this.instance = axios.create({
       baseURL: process.env.VUE_APP_API_URL,
       headers: {

@@ -3,7 +3,7 @@ import OptionView from '../option-view/option-view.vue';
 import NewItem from '@/components/new-item.vue';
 import ExpandableCodeGroup from '../expandable-code-group/expandable-code-group.vue';
 import { OptionGroupDto } from '@/types/dto/option-group-dto';
-import { PropInject } from 'di-corate';
+import { Inject } from 'di-corate';
 import { OptionGroupsApi } from './option-group-api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -11,8 +11,8 @@ import { BusyOverlay } from '@/core/busy-overlay';
 import { TemplateParser } from './template-parsing/template-parser';
 import { OptionValueType } from '@/types/option-value-type.enum';
 import { OptionsApi } from '../option-view/options-api';
-import { OptionDto } from '@/types/dto/option-dto';
 import { ComponentWithData } from '@/core/component-with-data';
+import { ParsedValueType } from './template-parsing/template';
 
 @Component({
   components: { OptionView, NewItem, ExpandableCodeGroup }
@@ -20,9 +20,9 @@ import { ComponentWithData } from '@/core/component-with-data';
 export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
   private unsubscribe = new Subject();
 
-  @PropInject(OptionGroupsApi) private readonly api!: OptionGroupsApi;
-  @PropInject(OptionsApi) private readonly optionsApi!: OptionsApi;
-  @PropInject('BusyOverlay') private readonly busy!: BusyOverlay;
+  @Inject(OptionGroupsApi) private readonly api!: OptionGroupsApi;
+  @Inject(OptionsApi) private readonly optionsApi!: OptionsApi;
+  @Inject(BusyOverlay) private readonly busy!: BusyOverlay;
 
   add(template: string) {
     const result = new TemplateParser().parse(template);
@@ -30,7 +30,7 @@ export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
       return;
     }
 
-    if (result.isGroup) {
+    if (result.type === ParsedValueType.Object) {
       this.addNested(result.name);
     } else if (result.type !== undefined) {
       this.addProperty(result.name, result.value, result.type);

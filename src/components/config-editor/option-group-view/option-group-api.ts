@@ -1,17 +1,15 @@
 import { Api } from '@/core/api';
 import { OptionGroupDto } from '@/types/dto/option-group-dto';
-import { Injectable } from 'di-corate';
+import { Injectable, InjectionScopeEnum } from 'di-corate';
 import { Subject } from 'rxjs';
 import { CreateOptionGroupDto } from './dto/create-group-dto';
 import { UpdateOptionGroupDto } from './dto/update-option-group-dto';
 
-@Injectable()
+@Injectable({
+  scope: InjectionScopeEnum.Transient
+})
 export class OptionGroupsApi extends Api {
-  private _created = new Subject<{
-    id: string;
-    name: string;
-    description: string;
-  }>();
+  private _created = new Subject<{ id: string; name: string; description: string; }>();
   get created() {
     return this._created.asObservable();
   }

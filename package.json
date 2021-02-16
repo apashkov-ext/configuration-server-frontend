@@ -14,7 +14,7 @@
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.19.0",
     "core-js": "^3.6.5",
-    "di-corate": "^0.2.4",
+    "di-corate": "^0.2.9",
     "js-sha256": "^0.9.0",
     "rxjs": "^6.6.3",
     "vue": "^2.6.11",
@@ -48,10 +48,6 @@
     "typescript": "~3.9.3",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-template-compiler": "^2.6.11"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "semi": true
   },
   "browserslist": [
     "> 1%",

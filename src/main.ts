@@ -2,7 +2,6 @@ import Vue from 'vue';
 import App from './App.vue';
 import { BootstrapVue, ToastPlugin, IconsPlugin } from 'bootstrap-vue';
 const VueInputAutowidth = require('vue-input-autowidth');
-import '@/startup';
 import '@/core/directives/digitsonly';
 import '@/core/directives/quotes';
 import '@/core/directives/nospaces';

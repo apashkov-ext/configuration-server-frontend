@@ -1,18 +1,16 @@
 import { OptionValueType } from '@/types/option-value-type.enum';
-import { Template } from './template';
+import { ParsedValueType, Template } from './template';
 import { TemplateParsingResult } from './template-parsing-result';
 
 export class TemplateParser {
   private static templates: Template[] = [
     {
       regexp: new RegExp('^(?<propName>[a-z]+)\\s*:\\s*{\\s*}$', 'i'),
+      resultType: ParsedValueType.Object,
       priority: 0
     },
     {
-      regexp: new RegExp(
-        '^(?<propName>[a-z]+)\\s*:\\s*\\[(?<propValue>([\\d]+,?\\s*)+)\\]$',
-        'i'
-      ),
+      regexp: new RegExp('^(?<propName>[a-z]+)\\s*:\\s*\\[(?<propValue>([\\d]+,?\\s*)+)\\]$', 'i'),
       resultType: OptionValueType.NumberArray,
       priority: 1,
       parseValue: val => {
@@ -22,10 +20,7 @@ export class TemplateParser {
     },
 
     {
-      regexp: new RegExp(
-        "^(?<propName>[a-z]+)\\s*:\\s*\\[(?<propValue>('[\\w()\\s-_$&#@,.а-я+=;<>!?/\\*:№\"%]+',?\\s*)+)\\]$",
-        'i'
-      ),
+      regexp: new RegExp("^(?<propName>[a-z]+)\\s*:\\s*\\[(?<propValue>('[\\w()\\s-_$&#@,.а-я+=;<>!?/\\*:№\"%]+',?\\s*)+)\\]$", 'i'),
       resultType: OptionValueType.StringArray,
       priority: 2,
       parseValue: val => {
@@ -34,10 +29,7 @@ export class TemplateParser {
       }
     },
     {
-      regexp: new RegExp(
-        '^(?<propName>[a-z]+)\\s*:\\s*(?<propValue>true|false)$',
-        'i'
-      ),
+      regexp: new RegExp('^(?<propName>[a-z]+)\\s*:\\s*(?<propValue>true|false)$', 'i'),
       resultType: OptionValueType.Boolean,
       priority: 3,
       parseValue: val => {
@@ -46,10 +38,7 @@ export class TemplateParser {
       }
     },
     {
-      regexp: new RegExp(
-        '^(?<propName>[a-z]+)\\s*:\\s*(?<propValue>\\d+)',
-        'i'
-      ),
+      regexp: new RegExp('^(?<propName>[a-z]+)\\s*:\\s*(?<propValue>\\d+)', 'i'),
       resultType: OptionValueType.Number,
       priority: 4,
       parseValue: val => {
@@ -57,10 +46,7 @@ export class TemplateParser {
       }
     },
     {
-      regexp: new RegExp(
-        '^(?<propName>[a-z]+)\\s*:\\s*(?<propValue>[\\w()\\s-_$&#@,.а-я+=;<>!?/\\*:№"%]+)$',
-        'i'
-      ),
+      regexp: new RegExp('^(?<propName>[a-z]+)\\s*:\\s*(?<propValue>[\\w()\\s-_$&#@,.а-я+=;<>!?/\\*:№"%]+)$', 'i'),
       resultType: OptionValueType.String,
       priority: 5
     }
@@ -68,9 +54,7 @@ export class TemplateParser {
 
   parse(input: string): TemplateParsingResult | undefined {
     const trimmed = (input || '').trim();
-    const sorted = TemplateParser.templates.sort((l, r) =>
-      l.priority === r.priority ? 0 : l.priority > r.priority ? 1 : -1
-    );
+    const sorted = TemplateParser.templates.sort((l, r) => l.priority === r.priority ? 0 : l.priority > r.priority ? 1 : -1);
 
     for (let i = 0; i < sorted.length; i++) {
       const res = this.getResult(trimmed, sorted[i]);
@@ -82,7 +66,7 @@ export class TemplateParser {
     return undefined;
   }
 
-  getResult(input: string, tmp: Template): TemplateParsingResult | undefined {
+  private getResult(input: string, tmp: Template): TemplateParsingResult | undefined {
     if (!tmp.regexp.test(input)) {
       return undefined;
     }
@@ -94,12 +78,11 @@ export class TemplateParser {
     }
 
     const str = groups?.propValue;
-    const value = (tmp.parseValue && tmp.parseValue(str)) || str;
+    const value = tmp.parseValue ? tmp.parseValue(str) : str;
 
     return {
       name,
       value,
-      isGroup: !value,
       type: tmp.resultType
     };
   }

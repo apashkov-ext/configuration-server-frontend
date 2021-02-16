@@ -1,7 +1,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import NewItem from '@/components/new-item.vue';
 import { ProjectDto } from '@/types/dto/project-dto';
-import { PropInject } from 'di-corate';
+import { Inject } from 'di-corate';
 import { ProjectsApi } from './projects-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -14,8 +14,8 @@ import { EnvironmentDto } from '@/types/dto/environment-dto';
 export class Sidebar extends Vue {
   private unsubscribe = new Subject();
 
-  @PropInject('BusyOverlay') private readonly busy!: BusyOverlay;
-  @PropInject(ProjectsApi) private readonly projectsApi!: ProjectsApi;
+  @Inject(BusyOverlay) private readonly busy!: BusyOverlay;
+  @Inject(ProjectsApi) private readonly projectsApi!: ProjectsApi;
 
   projects = new Array<ProjectDto>();
 

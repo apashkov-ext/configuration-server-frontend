@@ -1,8 +1,8 @@
 import { OptionValueType } from '@/types/option-value-type.enum';
+import { ParsedValueType } from './template';
 
 export interface TemplateParsingResult {
   name: string;
   value: any;
-  isGroup: boolean;
-  type?: OptionValueType;
+  type: OptionValueType | ParsedValueType;
 }

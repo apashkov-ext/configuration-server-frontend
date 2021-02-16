@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Sidebar from '@/components/sidebar/sidebar.vue';
 import ConfigEditor from '@/components/config-editor/config-editor.vue';
-import { PropInject } from 'di-corate';
+import { Inject } from 'di-corate';
 import { BusyOverlay } from './core/busy-overlay';
 import { SelectEnvEvent } from './types/events/select-env-event';
 import { EnvironmentDto } from './types/dto/environment-dto';
@@ -15,7 +15,7 @@ import { OptionGroupDto } from './types/dto/option-group-dto';
 export class App extends Vue {
   private unsubscribe = new Subject();
 
-  @PropInject('BusyOverlay') readonly busyOverlay!: BusyOverlay;
+  @Inject(BusyOverlay) readonly busyOverlay!: BusyOverlay;
 
   selectedOptionGroup: OptionGroupDto | null = null;
   isBusy = true;

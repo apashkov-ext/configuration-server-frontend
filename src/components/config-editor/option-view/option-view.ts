@@ -2,7 +2,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import NewItem from '@/components/new-item.vue';
 import { OptionDto } from '@/types/dto/option-dto';
 import { ChangeValueEvent } from '@/types/events/change-value-event';
-import { PropInject } from 'di-corate';
+import { Inject } from 'di-corate';
 import { OptionsApi } from './options-api';
 import { BusyOverlay } from '@/core/busy-overlay';
 import { Subject } from 'rxjs';
@@ -26,8 +26,8 @@ import { ComponentWithData } from '@/core/component-with-data';
 export class OptionView extends ComponentWithData<OptionDto> {
   private unsubscribe = new Subject();
 
-  @PropInject('BusyOverlay') private readonly busy!: BusyOverlay;
-  @PropInject(OptionsApi) private readonly api!: OptionsApi;
+  @Inject(BusyOverlay) private readonly busy!: BusyOverlay;
+  @Inject(OptionsApi) private readonly api!: OptionsApi;
 
   OptionValueType = OptionValueType;
 
