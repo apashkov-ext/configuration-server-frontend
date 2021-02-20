@@ -4,8 +4,8 @@
       v-if="name"
       :value="name"
       :tooltip="description"
-      @change="changeName($event)"
-    ></editable-label>
+      @change="$emit('changeName', $event)">
+    </editable-label>
 
     <div class="opt-value">
       <b-input
@@ -18,16 +18,14 @@
         @keydown.native.enter="commit(temp)"
         @keydown.native.esc="cancel()"
         @blur="cancel()"
-        ref="valueInput"
-      >
+        ref="valueInput">
       </b-input>
     </div>
 
     <span
-      @click.stop="deleteOption(env)"
+      @click.stop="$emit('delete')"
       title="Delete option"
-      class="delete-option"
-    >
+      class="delete-item">
       <b-icon icon="x" aria-label="Delete option"></b-icon>
     </span>
   </div>

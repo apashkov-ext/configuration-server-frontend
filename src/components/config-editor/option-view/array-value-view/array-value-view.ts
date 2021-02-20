@@ -1,10 +1,10 @@
-import { ChangeValueEvent } from '@/types/events/change-value-event';
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import StringValueView from '../string-value-view/string-value-view.vue';
 import NumberValueView from '../number-value-view/number-value-view.vue';
 import ExpandableCodeGroup from '../../expandable-code-group/expandable-code-group.vue';
 import NewItem from '@/components/new-item.vue';
 import EditableLabel from '@/components/editable-label/editable-label.vue';
+import { Modals } from '@/components/modals';
 
 type ElementType = 'string' | 'number';
 
@@ -23,11 +23,13 @@ export class ArrayValueView extends Vue {
   @Prop() elementsType!: ElementType;
   @Prop() description!: string;
 
-  changeElem(elem: ChangeValueEvent<any>, index: number) {
-    const changed = this.value.slice();
-    if (elem.oldValue !== elem.newValue) {
-      changed[index] = elem.newValue;
+  changeElem(newValue: any, index: number) {
+    if (this.value[index] === newValue) {
+      return;
     }
+
+    const changed = this.value.slice();
+    changed[index] = newValue;
 
     this.$emit('changeValue', changed);
   }
@@ -40,8 +42,15 @@ export class ArrayValueView extends Vue {
     this.$emit('changeValue', changed);
   }
 
-  changeName(e: string) {
-    this.$emit('changeName', e);
+  async removeElem(value: any, index: number) {
+    const res = await Modals.showConfirm('Delete element from array', `Are you sure you want to delete element [${value}] from array?`)
+    if (!res) {
+      return;
+    }
+    const changed = this.value.slice();
+    changed.splice(index, 1)
+
+    this.$emit('changeValue', changed);
   }
 
   private convertToType(val: string, type: ElementType): any {

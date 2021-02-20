@@ -15,11 +15,4 @@ export class BooleanValueView extends Vue {
   ];
 
   isTrue = !!this.value;
-
-  changeValue(val: boolean) {
-    this.$emit('changeValue', val);
-  }
-  changeName(e: string) {
-    this.$emit('changeName', e);
-  }
 }

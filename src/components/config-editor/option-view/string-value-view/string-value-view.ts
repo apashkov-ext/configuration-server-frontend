@@ -36,10 +36,6 @@ export class StringValueView extends Vue {
     this.$emit('changeValue', val);
   }
 
-  changeName(e: string) {
-    this.$emit('changeName', e);
-  }
-
   private blur() {
     (this.$refs.valueInput as any).blur();
   }

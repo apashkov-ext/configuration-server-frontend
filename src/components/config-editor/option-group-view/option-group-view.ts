@@ -13,6 +13,7 @@ import { OptionValueType } from '@/types/option-value-type.enum';
 import { OptionsApi } from '../option-view/options-api';
 import { ComponentWithData } from '@/core/component-with-data';
 import { ParsedValueType } from './template-parsing/template';
+import { Modals } from '@/components/modals';
 
 @Component({
   components: { OptionView, NewItem, ExpandableCodeGroup }
@@ -23,6 +24,10 @@ export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
   @Inject(OptionGroupsApi) private readonly api!: OptionGroupsApi;
   @Inject(OptionsApi) private readonly optionsApi!: OptionsApi;
   @Inject(BusyOverlay) private readonly busy!: BusyOverlay;
+
+  constructor() {
+    super();
+  }
 
   add(template: string) {
     const result = new TemplateParser().parse(template);
@@ -47,6 +52,24 @@ export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
     this.optionsApi.create(this.data.id, name, '', value, type);
   }
 
+  async deleteProperty(name: string, id: string) {
+    const res = await Modals.showConfirm('Delete property', `Are you sure you want to delete property [${name}] from group [${this.data.name}]?`);
+    if (!res) {
+      return;
+    }
+    this.busy.showBusy();
+    this.optionsApi.delete(id);
+  }
+
+  async deleteNested(name: string, id: string) {
+    const res = await Modals.showConfirm('Delete property', `Are you sure you want to delete group [${name}]?`)
+    if (!res) {
+      return;
+    }
+    this.busy.showBusy();
+    this.api.delete(id);
+  }
+
   changeGroupName(e: string) {
     this.busy.showBusy();
     this.backup();
@@ -55,9 +78,7 @@ export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
   }
 
   created() {
-    this.api.onError.pipe(takeUntil(this.unsubscribe)).subscribe(e => {
-      this.rollback();
-    });
+    this.api.onError.pipe(takeUntil(this.unsubscribe)).subscribe(() => this.rollback());
 
     this.api.created.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
       this.data.nestedGroups.push({
@@ -65,7 +86,8 @@ export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
         name: x.name,
         description: x.description,
         nestedGroups: [],
-        options: []
+        options: [],
+        root: false
       });
       this.busy.hideBusy();
     });
@@ -73,6 +95,11 @@ export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
     this.api.updated.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
       this.data.name = x.name;
       this.data.description = x.description;
+      this.busy.hideBusy();
+    });
+
+    this.api.deleted.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
+      this.data.nestedGroups = this.data.nestedGroups.filter(f => f.id !== x.id);
       this.busy.hideBusy();
     });
 
@@ -84,6 +111,11 @@ export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
         value: x.value,
         type: x.type
       });
+      this.busy.hideBusy();
+    });
+
+    this.optionsApi.deleted.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
+      this.data.options = this.data.options.filter(f => f.id !== x.id);
       this.busy.hideBusy();
     });
   }

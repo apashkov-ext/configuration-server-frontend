@@ -1,5 +1,5 @@
 export enum OptionValueType {
-  String,
+  String = 0,
   Number,
   Boolean,
   StringArray,

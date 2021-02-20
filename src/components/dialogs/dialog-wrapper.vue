@@ -4,7 +4,7 @@
       <template v-slot:overlay>
         <div id="dialog-content" class="card">
           <h5 id="dialog-title">{{ title }}</h5>
-          <p id="dialog-message" class="text-justify">{{ message }}</p>
+          <p id="dialog-message" class="text-left">{{ message }}</p>
           <div id="dialog-elements">
             <slot></slot>
           </div>

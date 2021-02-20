@@ -6,4 +6,5 @@ export interface OptionGroupDto {
   description: string;
   options: OptionDto[];
   nestedGroups: OptionGroupDto[];
+  root: boolean;
 }

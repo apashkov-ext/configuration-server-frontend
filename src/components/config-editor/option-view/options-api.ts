@@ -1,10 +1,12 @@
-import { Injectable, InjectionScopeEnum } from 'di-corate';
+import { Inject, Injectable, InjectionScopeEnum } from 'di-corate';
 import { UpdateOptionDto } from './dto/update-option-dto';
-import { Subject } from 'rxjs';
+import { EMPTY, Subject } from 'rxjs';
 import { OptionValueType } from '@/types/option-value-type.enum';
 import { CreateOptionDto } from '../option-group-view/dto/create-option-dto';
 import { OptionDto } from '@/types/dto/option-dto';
 import { Api } from '@/core/api';
+import { catchError } from 'rxjs/operators';
+import { HttpClient } from '@/core/http-client';
 
 @Injectable({
   scope: InjectionScopeEnum.Transient
@@ -20,7 +22,12 @@ export class OptionsApi extends Api {
     return this._updated.asObservable();
   }
 
-  constructor() {
+  private _deleted = new Subject<{ id: string; }>();
+  get deleted() {
+    return this._deleted.asObservable();
+  }
+
+  constructor(@Inject(HttpClient) protected readonly client: HttpClient) {
     super();
   }
 
@@ -32,17 +39,35 @@ export class OptionsApi extends Api {
       value,
       type
     } as CreateOptionDto;
+
     this.client
       .post<OptionDto>(`options`, r)
-      .then(x => this._created.next(x))
-      .catch(e => this.emitError(e));
+      .pipe(catchError(e => {
+        this.emitError(e);
+        return EMPTY;
+      }))
+      .subscribe(x => {
+        this._created.next(x);
+      });
   }
 
   update(id: string, name: string, description: string, value: any, type: OptionValueType) {
     const r = { name, description, value, type } as UpdateOptionDto;
     this.client
       .put(`options/${id}`, r)
-      .then(() => this._updated.next({ name, description, value }))
-      .catch(e => this.emitError(e));
+      .pipe(catchError(e => {
+        this.emitError(e);
+        return EMPTY;
+      }))
+      .subscribe(() => this._updated.next({ name, description, value }));
+  }
+
+  delete(id: string) {
+    this.client.delete(`options/${id}`)
+      .pipe(catchError(e => {
+        this.emitError(e);
+        return EMPTY;
+      }))
+      .subscribe(() => this._deleted.next({ id }));
   }
 }

@@ -4,6 +4,8 @@ import { Inject, Injectable } from 'di-corate';
 import { BusyOverlay } from './busy-overlay';
 import { Toastr } from './toastr';
 import { getErrorMessage } from './get-error-message';
+import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class HttpClient implements HttpClient {
@@ -21,9 +23,9 @@ export class HttpClient implements HttpClient {
     this.instance.interceptors.response.use(
       response => response,
       error => {
-        // if( error.config.hasOwnProperty('errorHandle') && error.config.errorHandle === false ) {
-        //     return Promise.reject(error);
-        // }
+        if (error.config.hasOwnProperty('errorHandle') && error.config.errorHandle === false) {
+          return Promise.reject(error);
+        }
         const message = getErrorMessage(error);
         toastr.error(message);
         busy.hideBusy();
@@ -32,23 +34,19 @@ export class HttpClient implements HttpClient {
     );
   }
 
-  async get<T>(url: string, errorHandled = false): Promise<T> {
-    const resp = await this.instance.get<T>(url, { errorHandled } as any);
-    return resp.data;
+  get<T>(url: string, errorHandled = false): Observable<T> {
+    return from(this.instance.get<T>(url, { errorHandled } as any)).pipe(map(m => m.data));
   }
 
-  async post<T>(url: string, data?: any, errorHandled = false): Promise<T> {
-    const resp = await this.instance.post<T>(url, data, {
-      errorHandled
-    } as any);
-    return resp.data;
+  post<T>(url: string, data?: any, errorHandled = false): Observable<T> {
+    return from(this.instance.post<T>(url, data, { errorHandled } as any)).pipe(map(m => m.data));
   }
 
-  async put(url: string, data?: any, errorHandled = false): Promise<void> {
-    await this.instance.put(url, data, { errorHandled } as any);
+  put(url: string, data?: any, errorHandled = false): Observable<void> {
+    return from(this.instance.put<void>(url, data, { errorHandled } as any)).pipe(map(() => undefined));
   }
 
-  async delete(url: string, errorHandled = false): Promise<void> {
-    await this.instance.delete(url, { errorHandled } as any);
+  delete(url: string, errorHandled = false): Observable<void> {
+    return from(this.instance.delete(url, { errorHandled } as any)).pipe(map(() => undefined));
   }
 }

@@ -42,8 +42,9 @@ export default ConfigEditor;
   height: 26px !important;
 }
 
+.code-grp-tgl,
 .value-view-wrapper {
-  .delete-option {
+  .delete-item {
     display: none;
     cursor: pointer;
     margin-left: 20px;
@@ -55,7 +56,7 @@ export default ConfigEditor;
   }
 
   &:hover {
-    .delete-option {
+    .delete-item {
       display: initial;
     }
   }

@@ -1,7 +1,6 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import NewItem from '@/components/new-item.vue';
 import { OptionDto } from '@/types/dto/option-dto';
-import { ChangeValueEvent } from '@/types/events/change-value-event';
 import { Inject } from 'di-corate';
 import { OptionsApi } from './options-api';
 import { BusyOverlay } from '@/core/busy-overlay';
@@ -33,32 +32,17 @@ export class OptionView extends ComponentWithData<OptionDto> {
 
   changeValue(e: any) {
     if (this.data.value !== e) {
-      this.updateOption(
-        this.data.name,
-        this.data.description,
-        e.newValue,
-        this.data.type
-      );
+      this.update(this.data.name, this.data.description, e, this.data.type);
     }
   }
 
   changeName(e: string) {
     if (this.data.name !== e) {
-      this.updateOption(
-        e,
-        this.data.description,
-        this.data.value,
-        this.data.type
-      );
+      this.update(e, this.data.description, this.data.value, this.data.type);
     }
   }
 
-  private updateOption(
-    name: string,
-    desc: string,
-    val: any,
-    type: OptionValueType
-  ) {
+  private update(name: string, desc: string, val: any, type: OptionValueType) {
     this.busy.showBusy();
     this.backup();
     this.data.name = name;

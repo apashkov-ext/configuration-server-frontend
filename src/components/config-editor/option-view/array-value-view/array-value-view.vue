@@ -5,8 +5,7 @@
       :tootip="description"
       openBracket="["
       closeBracket="]"
-      @changeName="changeName($event)"
-    >
+      @changeName="$emit('changeName', $event)">
       <template v-for="(element, cIndex) in value">
         <string-value-view
           v-if="elementsType === 'string'"
@@ -14,7 +13,7 @@
           :key="'str-elem-view' + cIndex"
           :value="element"
           @changeValue="changeElem($event, cIndex)"
-        >
+          @delete="removeElem(element, cIndex)">
         </string-value-view>
 
         <number-value-view
@@ -23,7 +22,7 @@
           :key="'numb-elem-view' + cIndex"
           :value="element"
           @changeValue="changeElem($event, cIndex)"
-        >
+          @delete="removeElem(element, cIndex)">
         </number-value-view>
       </template>
 
@@ -33,8 +32,7 @@
           class="add-prop"
           max-length="128"
           placeholder="add value..."
-          @onCommit="addValue($event)"
-        >
+          @onCommit="addValue($event)">
         </new-item>
         <new-item
           v-else-if="elementsType === 'number'"
@@ -42,8 +40,7 @@
           max-length="128"
           v-digitsonly
           placeholder="add value..."
-          @onCommit="addValue($event)"
-        >
+          @onCommit="addValue($event)">
         </new-item>
       </div>
     </expandable-code-group>

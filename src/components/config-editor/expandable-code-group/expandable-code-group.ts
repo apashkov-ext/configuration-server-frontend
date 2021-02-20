@@ -9,10 +9,7 @@ export class ExpandableCodeGroup extends Vue {
   @Prop() openBracket!: string;
   @Prop() closeBracket!: string;
   @Prop() tooltip!: string;
+  @Prop() removable!: boolean;
 
   expanded = true;
-
-  changeName(e: string) {
-    this.$emit('changeName', e);
-  }
 }

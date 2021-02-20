@@ -4,24 +4,21 @@
       v-if="name"
       :value="name"
       :tooltip="description"
-      @change="changeName($event)"
-    ></editable-label>
+      @change="$emit('changeName', $event)">
+    </editable-label>
 
     <div class="opt-value">
       <b-select
         class="val-input"
         v-model="isTrue"
         :options="options"
-        @input="changeValue($event)"
-      >
+        @input="$emit('changeValue', $event)">
       </b-select>
     </div>
 
-    <span
-      @click.stop="deleteOption(env)"
+    <span @click.stop="$emit('delete')"
       title="Delete option"
-      class="delete-option"
-    >
+      class="delete-item">
       <b-icon icon="x" aria-label="Delete option"></b-icon>
     </span>
   </div>
