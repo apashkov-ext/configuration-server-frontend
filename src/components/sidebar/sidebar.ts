@@ -19,17 +19,13 @@ export class Sidebar extends Vue {
 
   projects = new Array<ProjectDto>();
 
-  createProject(name: string) {}
+  createProject(name: string) { }
 
-  deleteProject(p: ProjectDto) {}
+  deleteProject(p: ProjectDto) { }
 
-  selectEnv(env: EnvironmentDto) {
-    this.$emit('selectEnv', { env });
-  }
+  addEnv(p: ProjectDto, envName: string) { }
 
-  addEnv(p: ProjectDto, envName: string) {}
-
-  removeEnv(env: EnvironmentDto) {}
+  removeEnv(env: EnvironmentDto) { }
 
   created() {
     this.projectsApi.projectsRetrieved

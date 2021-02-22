@@ -1,7 +1,23 @@
 <template>
-  <div class="editor-wrapper">
-    <h5>Environment</h5>
-    <option-group-view :data="data"></option-group-view>
+  <div v-if="data" class="editor-wrapper">
+    <h5>{{data.name}}</h5>
+    <b-tabs>
+
+      <b-tab title="Preview" active>
+        <config-preview :data="preview" />
+      </b-tab>
+
+      <b-tab title="Edit">
+        <option-group-view :data="data.optionGroup" @update="refresh($event)" />
+      </b-tab>
+
+      <template #tabs-end>
+        <b-link @click="download()">Download</b-link>
+        <b-link @click="importConfig()">Import</b-link>
+      </template>
+      
+
+    </b-tabs>
   </div>
 </template>
 

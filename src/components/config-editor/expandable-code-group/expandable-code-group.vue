@@ -17,12 +17,13 @@
         :tooltip="tooltip"
         @change="$emit('changeName', $event)">
       </editable-label>
-      <span v-if="expanded" class="contracted-view">{{ openBracket }}</span>
-      <span v-else class="expanded-view" @click="expanded = !expanded">{{ openBracket }}...{{ closeBracket }}</span>
-      <span @click.stop="$emit('delete')"
+      <span v-if="expanded && bracketsView.left" class="contracted-view">{{ bracketsView.left }}</span>
+      <span v-else-if="bracketsView.left && bracketsView.right" 
+        class="expanded-view" @click="expanded = !expanded">{{ bracketsView.left }}...{{ bracketsView.right }}</span>
+      <span v-if="deletable" v-once @click.stop="$emit('delete')"
         title="Delete option"
         class="delete-item">
-        <b-icon icon="x" aria-label="Delete option"></b-icon>
+        <b-icon icon="x" aria-label="Delete option" />
       </span>
     </div>
 
@@ -31,9 +32,7 @@
     </div>
 
     <div>
-      <span class="code-tab contracted-view " v-if="expanded">{{
-        closeBracket
-      }}</span>
+      <span class="code-tab contracted-view" v-if="expanded && bracketsView.right">{{ bracketsView.right }}</span>
     </div>
   </div>
 </template>

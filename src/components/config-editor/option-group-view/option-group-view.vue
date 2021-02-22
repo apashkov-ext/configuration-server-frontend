@@ -3,17 +3,16 @@
     <expandable-code-group
       :name="data.name"
       :tooltip="data.description"
-      openBracket="{"
-      closeBracket="}"
-      :deletable="data.root"
+      brackets="{}"
+      :deletable="!data.root"
       @changeName="changeGroupName($event)"
       @delete="$emit('delete')">
       <template v-for="option in data.options">
-        <option-view :key="option.id" :data="option" @delete="deleteProperty($event, option.id)"></option-view>
+        <option-view :key="option.id" :data="option" @delete="deleteProperty($event, option.id)" />
       </template>
 
       <template v-for="nested in data.nestedGroups">
-        <option-group-view :key="nested.id" :data="nested" @delete="deleteNested(nested.name, nested.id)"></option-group-view>
+        <option-group-view :key="nested.id" :data="nested" @delete="deleteNested(nested.name, nested.id)" />
       </template>
 
       <div class="add-prop-wrapper">
@@ -21,8 +20,7 @@
           class="add-prop"
           max-length="128"
           placeholder="add property..."
-          @onCommit="add($event)"
-        ></new-item>
+          @onCommit="add($event)" />
       </div>
     </expandable-code-group>
   </div>

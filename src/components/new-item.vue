@@ -4,7 +4,7 @@
       class="new-item-input"
       :placeholder="placeholder || ''"
       v-model="value"
-      v-bind:maxlength="maxLength"
+      :maxlength="maxLength"
       @keydown.native.enter="onEnter($event)"
       @keydown.native.esc="onEsc()"
       @blur="onEsc()"

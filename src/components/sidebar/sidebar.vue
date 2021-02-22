@@ -9,16 +9,14 @@
               v-b-toggle
               class="parent-item"
               :href="'#proj' + pIndex"
-              :key="'toggle' + pIndex"
-            >
+              :key="'toggle' + pIndex">
               <b-row :key="'row' + pIndex">
                 <b-col> <b-icon icon="folder"></b-icon> {{ item.name }} </b-col>
                 <b-col class="delete-button-col">
                   <span
                     @click.stop="deleteProject(item)"
-                    title="Delete project"
-                  >
-                    <b-icon icon="trash" aria-label="Delete project"></b-icon>
+                    title="Delete project">
+                    <b-icon icon="trash" aria-label="Delete project" />
                   </span>
                 </b-col>
               </b-row>
@@ -27,16 +25,14 @@
             <b-collapse
               :id="'proj' + pIndex"
               :key="'collapse' + pIndex"
-              class="child-group"
-            >
+              class="child-group">
               <b-list-group :key="'child-group' + pIndex">
                 <b-list-group-item
                   href="#"
                   class="child-item"
                   v-for="(env, eIndex) in item.environments"
                   :key="pIndex + '-' + eIndex"
-                  @click="selectEnv(env)"
-                >
+                  @click="$emit('selectEnv', env)">
                   <div class="d-flex">
                     <div class="env-text">
                       ├─
@@ -50,12 +46,10 @@
                     <div class="env-remove-button ml-auto">
                       <span
                         @click.stop="removeEnv(env)"
-                        title="Remove environment"
-                      >
+                        title="Remove environment">
                         <b-icon
                           icon="x"
-                          aria-label="Remove environment"
-                        ></b-icon>
+                          aria-label="Remove environment" />
                       </span>
                     </div>
                   </div>
@@ -64,23 +58,20 @@
                 <b-list-group-item
                   href="#"
                   class="child-item"
-                  :key="'addEnv' + pIndex"
-                >
+                  :key="'addEnv' + pIndex">
                   <div class="d-flex">
                     <div class="add-env-text">
                       └─
                     </div>
                     <div class="add-env-icon">
-                      <b-icon icon="file-earmark-plus"></b-icon>
+                      <b-icon icon="file-earmark-plus" />
                     </div>
                     <div class="add-env-input">
                       <new-item
                         v-nospaces
                         max-length="12"
                         placeholder="new environment..."
-                        @onCommit="addEnv(item, $event)"
-                      >
-                      </new-item>
+                        @onCommit="addEnv(item, $event)" />
                     </div>
                   </div>
                 </b-list-group-item>
@@ -99,8 +90,8 @@
                 v-nospaces
                 max-length="40"
                 placeholder="new project..."
-                @onCommit="createProject($event)"
-              ></new-item>
+                @onCommit="createProject($event)">
+              </new-item>
             </div>
           </div>
         </b-list-group-item>

@@ -2,10 +2,11 @@
   <div>
     <expandable-code-group
       :name="name"
-      :tootip="description"
-      openBracket="["
-      closeBracket="]"
-      @changeName="$emit('changeName', $event)">
+      :tooltip="description"
+      deletable="true"
+      brackets="[]"
+      @changeName="$emit('changeName', $event)"
+      @delete="$emit('delete')">
       <template v-for="(element, cIndex) in value">
         <string-value-view
           v-if="elementsType === 'string'"

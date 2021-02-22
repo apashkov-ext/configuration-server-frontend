@@ -11,7 +11,6 @@
       <b-input
         class="val-input"
         v-autowidth="{ maxWidth: '400px', minWidth: '20px', comfortZone: 0 }"
-        type="text"
         v-quotes
         v-model="temp"
         @click="edit()"

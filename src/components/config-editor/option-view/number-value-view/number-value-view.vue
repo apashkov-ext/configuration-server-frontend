@@ -16,7 +16,7 @@
         @click="edit()"
         @keydown.native.enter="commit(temp)"
         @keydown.native.esc="cancel()"
-        @blur="commit(temp)"
+        @blur="cancel()"
         ref="valueInput">
       </b-input>
     </div>

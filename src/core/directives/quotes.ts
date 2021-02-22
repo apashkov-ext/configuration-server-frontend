@@ -30,7 +30,9 @@ function addQuotes(e: FocusEvent) {
     return;
   }
 
+  const ev = new Event('input', { bubbles: false });
   el.value = `'${el.value}'`;
+  el.dispatchEvent(ev);
 }
 
 function filterQuotes(e: KeyboardEvent) {
@@ -44,6 +46,7 @@ Vue.directive('quotes', {
     const inp = tryGetInput(el);
     inp.addEventListener('focusin', removeQuotes);
     inp.addEventListener('focusout', addQuotes);
+    inp.addEventListener('blur', addQuotes);
     inp.addEventListener('keydown', filterQuotes);
   },
   inserted(el, binding) {
@@ -58,6 +61,7 @@ Vue.directive('quotes', {
     const inp = tryGetInput(el);
     inp.removeEventListener('focusin', removeQuotes);
     inp.removeEventListener('focusout', addQuotes);
+    inp.removeEventListener('blur', addQuotes);
     inp.removeEventListener('keydown', filterQuotes);
   }
 });

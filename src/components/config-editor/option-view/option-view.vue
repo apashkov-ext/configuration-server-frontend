@@ -1,5 +1,5 @@
 <template>
-  <div v-if="data">
+  <div>
     <string-value-view
       v-if="data.type === OptionValueType.String"
       class="code-tab"
@@ -8,8 +8,7 @@
       :description="data.description"
       @changeValue="changeValue($event)"
       @changeName="changeName($event)"
-      @delete="$emit('delete', data.name)">
-    </string-value-view>
+      @delete="$emit('delete', data.name)" />
 
     <number-value-view
       v-if="data.type === OptionValueType.Number"
@@ -19,8 +18,7 @@
       :description="data.description"
       @changeValue="changeValue($event)"
       @changeName="changeName($event)"
-      @delete="$emit('delete', data.name)">
-    </number-value-view>
+      @delete="$emit('delete', data.name)" />
 
     <boolean-value-view
       v-if="data.type === OptionValueType.Boolean"
@@ -30,8 +28,7 @@
       :description="data.description"
       @changeValue="changeValue($event)"
       @changeName="changeName($event)"
-      @delete="$emit('delete', data.name)">
-    </boolean-value-view>
+      @delete="$emit('delete', data.name)" />
 
     <array-value-view
       v-if="data.type === OptionValueType.StringArray"
@@ -41,8 +38,7 @@
       elementsType="string"
       @changeValue="changeValue($event)"
       @changeName="changeName($event)"
-      @delete="$emit('delete', data.name)">
-    </array-value-view>
+      @delete="$emit('delete', data.name)" />
 
     <array-value-view
       v-if="data.type === OptionValueType.NumberArray"
@@ -52,8 +48,7 @@
       elementsType="number"
       @changeValue="changeValue($event)"
       @changeName="changeName($event)"
-      @delete="$emit('delete', data.name)">
-    </array-value-view>
+      @delete="$emit('delete', data.name)" />
   </div>
 </template>
 
