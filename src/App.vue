@@ -7,7 +7,7 @@
         </b-col>
 
         <b-col class="editor-col" align-self="stretch">
-          <config-editor :data="selectedEnv"></config-editor>
+          <config-editor v-if="selected" :data="selected.environment" :projectId="selected.projectId"></config-editor>
         </b-col>
       </b-row>
     </b-container>

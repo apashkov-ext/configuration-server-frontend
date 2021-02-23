@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import { Inject, Injectable } from 'di-corate';
 import { BusyOverlay } from './busy-overlay';
@@ -23,9 +23,6 @@ export class HttpClient implements HttpClient {
     this.instance.interceptors.response.use(
       response => response,
       error => {
-        if (error.config.hasOwnProperty('errorHandle') && error.config.errorHandle === false) {
-          return Promise.reject(error);
-        }
         const message = getErrorMessage(error);
         toastr.error(message);
         busy.hideBusy();
@@ -34,19 +31,19 @@ export class HttpClient implements HttpClient {
     );
   }
 
-  get<T>(url: string, errorHandled = false): Observable<T> {
-    return from(this.instance.get<T>(url, { errorHandled } as any)).pipe(map(m => m.data));
+  get<T>(url: string): Observable<T> {
+    return from(this.instance.get<T>(url)).pipe(map(m => m.data));
   }
 
-  post<T>(url: string, data?: any, errorHandled = false): Observable<T> {
-    return from(this.instance.post<T>(url, data, { errorHandled } as any)).pipe(map(m => m.data));
+  post<T>(url: string, data?: any, config?: AxiosRequestConfig): Observable<T> {
+    return from(this.instance.post<T>(url, data, config)).pipe(map(m => m.data));
   }
 
-  put(url: string, data?: any, errorHandled = false): Observable<void> {
-    return from(this.instance.put<void>(url, data, { errorHandled } as any)).pipe(map(() => undefined));
+  put(url: string, data?: any): Observable<void> {
+    return from(this.instance.put<void>(url, data)).pipe(map(() => undefined));
   }
 
-  delete(url: string, errorHandled = false): Observable<void> {
-    return from(this.instance.delete(url, { errorHandled } as any)).pipe(map(() => undefined));
+  delete(url: string): Observable<void> {
+    return from(this.instance.delete(url)).pipe(map(() => undefined));
   }
 }

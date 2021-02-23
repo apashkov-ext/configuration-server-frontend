@@ -13,11 +13,14 @@
 
       <template #tabs-end>
         <b-link @click="download()">Download</b-link>
-        <b-link @click="importConfig()">Import</b-link>
+        <b-link @click="$refs.fileInput.click()">Import</b-link>
       </template>
       
 
     </b-tabs>
+
+    <input type="file" ref="fileInput" style="display: none" @change="uploadFile($event.target.files)" 
+      accept="application/json,text/plain,.json,.txt" />
   </div>
 </template>
 

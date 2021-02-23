@@ -15,11 +15,11 @@ export class App extends Vue {
 
   @Inject(BusyOverlay) readonly busyOverlay!: BusyOverlay;
 
-  selectedEnv: EnvironmentDto | null = null;
+  selected: { projectId: string, environment: EnvironmentDto } | null = null;
   isBusy = true;
 
-  selectEnv(event: EnvironmentDto) {
-    this.selectedEnv = event;
+  selectEnv(event: { projectId: string, environment: EnvironmentDto }) {
+    this.selected = event;
   }
 
   created() {

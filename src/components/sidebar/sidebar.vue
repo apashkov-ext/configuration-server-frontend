@@ -32,7 +32,7 @@
                   class="child-item"
                   v-for="(env, eIndex) in item.environments"
                   :key="pIndex + '-' + eIndex"
-                  @click="$emit('selectEnv', env)">
+                  @click="$emit('selectEnv', { projectId: item.id, environment: env })">
                   <div class="d-flex">
                     <div class="env-text">
                       ├─
