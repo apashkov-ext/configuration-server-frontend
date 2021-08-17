@@ -2,13 +2,15 @@
   <b-overlay :show="isBusy" rounded="sm">
     <b-container fluid class="main-wrapper">
       <b-row>
+
         <b-col class="sidebar-col" align-self="stretch">
           <sidebar @selectEnv="selectEnv($event)"></sidebar>
         </b-col>
 
         <b-col class="editor-col" align-self="stretch">
-          <config-editor v-if="selected" :data="selected.environment" :projectId="selected.projectId"></config-editor>
+          <config-editor v-if="selected" :environment="selected.environment" :projectId="selected.projectId" @imported="imported(selected.environment.id)"></config-editor>
         </b-col>
+
       </b-row>
     </b-container>
   </b-overlay>

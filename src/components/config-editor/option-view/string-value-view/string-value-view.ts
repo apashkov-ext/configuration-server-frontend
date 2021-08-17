@@ -10,7 +10,12 @@ export class StringValueView extends Vue {
   @Prop() description!: string;
 
   editorMode = false;
-  temp = this.value;
+  temp: string;
+
+  constructor() {
+    super();
+    this.temp = this.value;
+  }
 
   edit() {
     if (this.editorMode) {

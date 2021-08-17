@@ -9,10 +9,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BusyOverlay } from '@/core/busy-overlay';
 import { TemplateParser } from './template-parsing/template-parser';
-import { OptionValueType } from '@/types/option-value-type.enum';
+import { OptionValueType } from '@/domain/option-value-type.enum';
 import { ComponentWithData } from '@/core/component-with-data';
 import { ParsedValueType } from './template-parsing/template';
-import { Modals } from '@/components/modals';
+import { Modals } from '@/core/modals';
 
 @Component({
   components: { OptionView, NewItem, ExpandableCodeGroup }

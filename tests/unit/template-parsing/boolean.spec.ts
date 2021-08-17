@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { TemplateParser } from '@/components/config-editor/option-group-view/template-parsing/template-parser';
-import { OptionValueType } from '@/types/option-value-type.enum';
+import { OptionValueType } from '@/domain/option-value-type.enum';
 
 describe('parse boolean', () => {
 

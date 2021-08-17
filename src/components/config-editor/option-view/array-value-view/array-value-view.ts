@@ -4,7 +4,7 @@ import NumberValueView from '../number-value-view/number-value-view.vue';
 import ExpandableCodeGroup from '../../expandable-code-group/expandable-code-group.vue';
 import NewItem from '@/components/new-item.vue';
 import EditableLabel from '@/components/editable-label/editable-label.vue';
-import { Modals } from '@/components/modals';
+import { Modals } from '@/core/modals';
 
 type ElementType = 'string' | 'number';
 

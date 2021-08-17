@@ -1,7 +1,7 @@
 import { Inject, Injectable, InjectionScopeEnum } from 'di-corate';
 import { UpdateOptionDto } from './dto/update-option-dto';
 import { EMPTY, Subject } from 'rxjs';
-import { OptionValueType } from '@/types/option-value-type.enum';
+import { OptionValueType } from '@/domain/option-value-type.enum';
 import { Api } from '@/core/api';
 import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@/core/http-client';

@@ -6,7 +6,7 @@ import { OptionsApi } from './options-api';
 import { BusyOverlay } from '@/core/busy-overlay';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { OptionValueType } from '@/types/option-value-type.enum';
+import { OptionValueType } from '@/domain/option-value-type.enum';
 import StringValueView from './string-value-view/string-value-view.vue';
 import NumberValueView from './number-value-view/number-value-view.vue';
 import BooleanValueView from './boolean-value-view/boolean-value-view.vue';

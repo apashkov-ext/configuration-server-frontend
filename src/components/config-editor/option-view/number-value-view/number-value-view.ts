@@ -10,7 +10,12 @@ export class NumberValueView extends Vue {
   @Prop() description!: string;
 
   editorMode = false;
-  temp = this.value;
+  temp: number;
+
+  constructor() {
+    super();
+    this.temp = this.value;
+  }
 
   edit() {
     if (this.editorMode) {

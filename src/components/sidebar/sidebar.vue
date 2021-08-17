@@ -2,8 +2,8 @@
   <div id="sidebar">
     <h2>Projects</h2>
     <div class="list-wrapper">
-      <b-list-group v-if="projects && projects.length">
-        <template v-for="(item, pIndex) in projects">
+      <b-list-group v-if="projects">
+        <template v-for="(project, pIndex) in projects">
           <div class="parent" :key="'parent' + pIndex">
             <b-list-group-item
               v-b-toggle
@@ -11,10 +11,10 @@
               :href="'#proj' + pIndex"
               :key="'toggle' + pIndex">
               <b-row :key="'row' + pIndex">
-                <b-col> <b-icon icon="folder"></b-icon> {{ item.name }} </b-col>
+                <b-col> <b-icon icon="folder"></b-icon> {{ project.name }} </b-col>
                 <b-col class="delete-button-col">
                   <span
-                    @click.stop="deleteProject(item)"
+                    @click.stop="deleteProject(project)"
                     title="Delete project">
                     <b-icon icon="trash" aria-label="Delete project" />
                   </span>
@@ -30,9 +30,9 @@
                 <b-list-group-item
                   href="#"
                   class="child-item"
-                  v-for="(env, eIndex) in item.environments"
+                  v-for="(env, eIndex) in project.environments"
                   :key="pIndex + '-' + eIndex"
-                  @click="$emit('selectEnv', { projectId: item.id, environment: env })">
+                  @click="$emit('selectEnv', { projectId: project.id, environment: env }); selectProject(project)">
                   <div class="d-flex">
                     <div class="env-text">
                       ├─
@@ -71,7 +71,7 @@
                         v-nospaces
                         max-length="12"
                         placeholder="new environment..."
-                        @onCommit="addEnv(item, $event)" />
+                        @onCommit="addEnv(project, $event)" />
                     </div>
                   </div>
                 </b-list-group-item>

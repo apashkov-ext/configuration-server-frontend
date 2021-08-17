@@ -2,7 +2,7 @@ import { Api } from '@/core/api';
 import { HttpClient } from '@/core/http-client';
 import { OptionDto } from '@/types/dto/option-dto';
 import { OptionGroupDto } from '@/types/dto/option-group-dto';
-import { OptionValueType } from '@/types/option-value-type.enum';
+import { OptionValueType } from '@/domain/option-value-type.enum';
 import { Inject, Injectable, InjectionScopeEnum } from 'di-corate';
 import { EMPTY, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -14,6 +14,11 @@ import { UpdateOptionGroupDto } from './dto/update-option-group-dto';
   scope: InjectionScopeEnum.Transient
 })
 export class OptionGroupsApi extends Api {
+  private _optionGroupLoaded = new Subject<OptionGroupDto>();
+  get optionGroupLoaded() {
+    return this._optionGroupLoaded.asObservable();
+  }
+
   private _optionGroupCreated = new Subject<{ id: string; name: string; description: string; }>();
   get optionGroupCreated() {
     return this._optionGroupCreated.asObservable();
@@ -41,6 +46,15 @@ export class OptionGroupsApi extends Api {
 
   constructor(@Inject(HttpClient) protected readonly client: HttpClient) {
     super();
+  }
+
+  loadOptionGroup(id: string) {
+    this.client.get<OptionGroupDto>(`option-groups/${id}`)
+      .pipe(catchError(e => {
+          this.emitError(e);
+          return EMPTY;
+      }))
+      .subscribe(x => this._optionGroupLoaded.next(x));
   }
 
   createOptionGroup(parentId: string, name: string) {

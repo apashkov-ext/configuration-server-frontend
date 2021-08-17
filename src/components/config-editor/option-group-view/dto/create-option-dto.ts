@@ -1,4 +1,4 @@
-import { OptionValueType } from '@/types/option-value-type.enum';
+import { OptionValueType } from '@/domain/option-value-type.enum';
 
 export interface CreateOptionDto {
   optionGroup: string;

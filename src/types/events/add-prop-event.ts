@@ -1,4 +1,4 @@
-import { OptionValueType } from '../option-value-type.enum';
+import { OptionValueType } from '../../domain/option-value-type.enum';
 
 export interface AddPropEvent {
   name: string;

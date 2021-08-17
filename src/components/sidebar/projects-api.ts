@@ -56,6 +56,6 @@ export class ProjectsApi extends Api {
         this.emitError(e);
         return EMPTY;
       }))
-      .subscribe(() => ({ id }));
+      .subscribe(() => this._deleted.next({ id }));
   }
 }

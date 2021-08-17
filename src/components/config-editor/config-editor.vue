@@ -1,6 +1,6 @@
 <template>
-  <div v-if="data" class="editor-wrapper">
-    <h5>{{data.name}}</h5>
+  <div v-if="environment" class="editor-wrapper">
+    <h5>{{environment.name}}</h5>
     <b-tabs>
 
       <b-tab title="Preview" active>
@@ -8,14 +8,13 @@
       </b-tab>
 
       <b-tab title="Edit">
-        <option-group-view :data="data.optionGroup" @update="refresh($event)" />
+        <option-group-view :data="environment.optionGroup" @update="$emit('imported')" />
       </b-tab>
 
       <template #tabs-end>
         <b-link @click="download()">Download</b-link>
         <b-link @click="$refs.fileInput.click()">Import</b-link>
       </template>
-      
 
     </b-tabs>
 
