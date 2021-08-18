@@ -48,7 +48,7 @@ export class Sidebar extends Vue {
         }
     
         this.busy.showBusy();
-        this.projectsApi.deleteProject(p.name);
+        this.projectsApi.deleteProject(p.id);
       });
   }
 

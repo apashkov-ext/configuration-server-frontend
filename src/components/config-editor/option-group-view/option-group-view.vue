@@ -8,7 +8,7 @@
       @changeName="changeGroupName($event)"
       @delete="$emit('delete')">
       <template v-for="option in data.options">
-        <option-view :key="option.id" :data="option" @delete="deleteProperty($event, option.id)" />
+        <option-view :key="option.id" :data="option" @delete="deleteOption(option.id)" />
       </template>
 
       <template v-for="nested in data.nestedGroups">

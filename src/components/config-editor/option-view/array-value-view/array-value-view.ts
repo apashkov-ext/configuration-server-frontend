@@ -43,14 +43,16 @@ export class ArrayValueView extends Vue {
   }
 
   async removeElem(value: any, index: number) {
-    const res = await Modals.showConfirm('Delete element from array', `Are you sure you want to delete element [${value}] from array?`)
-    if (!res) {
-      return;
-    }
-    const changed = this.value.slice();
-    changed.splice(index, 1)
+    Modals.showConfirm('Delete element from array', `Are you sure you want to delete element [${value}] from array?`)
+      .subscribe(res => {
+        if (!res) {
+          return;
+        }
 
-    this.$emit('changeValue', changed);
+        const changed = this.value.slice();
+        changed.splice(index, 1)  
+        this.$emit('changeValue', changed);
+      });
   }
 
   private convertToType(val: string, type: ElementType): any {

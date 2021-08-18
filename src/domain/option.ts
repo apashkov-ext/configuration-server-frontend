@@ -45,6 +45,8 @@ export class Option {
             this.__value = v as ReadonlyArray<any>;
         } else if (typeof v === 'object') {
             this.__value = Object.assign({}, v);
+        } else {
+            this.__value = v;
         }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
 import EditableLabel from '@/components/editable-label/editable-label.vue';
 
 @Component({
@@ -10,11 +10,13 @@ export class StringValueView extends Vue {
   @Prop() description!: string;
 
   editorMode = false;
-  temp: string;
+  temp = {
+    value: this.value
+  };
 
   constructor() {
     super();
-    this.temp = this.value;
+    this.temp.value = this.value;
   }
 
   edit() {
@@ -22,12 +24,12 @@ export class StringValueView extends Vue {
       return;
     }
     this.editorMode = true;
-    this.temp = this.value;
+    this.temp.value = this.value;
   }
 
   cancel() {
     this.editorMode = false;
-    this.temp = this.value;
+    this.temp.value = this.value;
     this.blur();
   }
 

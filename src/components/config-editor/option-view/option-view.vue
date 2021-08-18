@@ -8,7 +8,7 @@
       :description="data.description"
       @changeValue="changeValue($event)"
       @changeName="changeName($event)"
-      @delete="$emit('delete', data.name)" />
+      @delete="$emit('delete')" />
 
     <number-value-view
       v-if="data.type === OptionValueType.Number"
@@ -18,7 +18,7 @@
       :description="data.description"
       @changeValue="changeValue($event)"
       @changeName="changeName($event)"
-      @delete="$emit('delete', data.name)" />
+      @delete="$emit('delete')" />
 
     <boolean-value-view
       v-if="data.type === OptionValueType.Boolean"
@@ -28,7 +28,7 @@
       :description="data.description"
       @changeValue="changeValue($event)"
       @changeName="changeName($event)"
-      @delete="$emit('delete', data.name)" />
+      @delete="$emit('delete')" />
 
     <array-value-view
       v-if="data.type === OptionValueType.StringArray"
@@ -38,7 +38,7 @@
       elementsType="string"
       @changeValue="changeValue($event)"
       @changeName="changeName($event)"
-      @delete="$emit('delete', data.name)" />
+      @delete="$emit('delete')" />
 
     <array-value-view
       v-if="data.type === OptionValueType.NumberArray"
@@ -48,7 +48,7 @@
       elementsType="number"
       @changeValue="changeValue($event)"
       @changeName="changeName($event)"
-      @delete="$emit('delete', data.name)" />
+      @delete="$emit('delete')" />
   </div>
 </template>
 

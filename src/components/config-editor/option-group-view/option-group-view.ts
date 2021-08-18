@@ -50,22 +50,27 @@ export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
     this.api.createOption(this.data.id, name, '', value, type);
   }
 
-  async deleteProperty(name: string, id: string) {
-    const res = await Modals.showConfirm('Delete property', `Are you sure you want to delete property [${name}] from group [${this.data.name}]?`);
-    if (!res) {
-      return;
-    }
-    this.busy.showBusy();
-    this.api.deleteOption(id);
+  async deleteOption(id: string) {
+    const o = this.data.options.find(f => f.id === id);
+    Modals.showConfirm('Delete property', `Are you sure you want to delete the property [${o?.name}] from the group [${this.data.name}]?`)
+      .subscribe(res => {
+        if (!res) {
+          return;
+        }
+        this.busy.showBusy();
+        this.api.deleteOption(id);
+      });
   }
 
   async deleteNested(name: string, id: string) {
-    const res = await Modals.showConfirm('Delete property', `Are you sure you want to delete group [${name}]?`)
-    if (!res) {
-      return;
-    }
-    this.busy.showBusy();
-    this.api.deleteOptionGroup(id);
+    Modals.showConfirm('Delete property', `Are you sure you want to delete group [${name}]?`)
+      .subscribe(res => {
+        if (!res) {
+          return;
+        }
+        this.busy.showBusy();
+        this.api.deleteOptionGroup(id);
+      });
   }
 
   changeGroupName(e: string) {

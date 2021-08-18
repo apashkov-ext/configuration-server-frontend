@@ -12,9 +12,9 @@
         class="val-input"
         v-autowidth="{ maxWidth: '400px', minWidth: '20px', comfortZone: 0 }"
         v-quotes
-        v-model="temp"
+        v-model="temp.value"
         @click="edit()"
-        @keydown.native.enter="commit(temp)"
+        @keydown.native.enter="commit(temp.value)"
         @keydown.native.esc="cancel()"
         @blur="cancel()"
         ref="valueInput">

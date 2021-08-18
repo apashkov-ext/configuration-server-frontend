@@ -10,11 +10,13 @@ export class NumberValueView extends Vue {
   @Prop() description!: string;
 
   editorMode = false;
-  temp: number;
+  temp = {
+    value: this.value
+  };
 
   constructor() {
     super();
-    this.temp = this.value;
+    this.temp.value = this.value;
   }
 
   edit() {
@@ -22,23 +24,23 @@ export class NumberValueView extends Vue {
       return;
     }
     this.editorMode = true;
-    this.temp = this.value;
+    this.temp.value = this.value;
   }
 
   cancel() {
     this.editorMode = false;
-    this.temp = this.value;
+    this.temp.value = this.value;
     this.blur();
   }
 
-  commit(val: any) {
+  commit(val: number) {
     this.editorMode = false;
     this.blur();
-    if (this.value === +val) {
+    if (this.value === val) {
       return;
     }
 
-    this.$emit('changeValue', +val);
+    this.$emit('changeValue', val);
   }
 
   private blur() {
