@@ -18,6 +18,7 @@ type ElementType = 'string' | 'number';
   }
 })
 export class ArrayValueView extends Vue {
+  @Prop() id!: string;
   @Prop() name!: string;
   @Prop() value!: any[];
   @Prop() elementsType!: ElementType;

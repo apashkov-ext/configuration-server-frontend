@@ -32,6 +32,7 @@
 
     <array-value-view
       v-if="data.type === OptionValueType.StringArray"
+      :id="data.id"
       :value="data.value"
       :name="data.name"
       :description="data.description"
@@ -42,6 +43,7 @@
 
     <array-value-view
       v-if="data.type === OptionValueType.NumberArray"
+      :id="data.id"
       :value="data.value"
       :name="data.name"
       :description="data.description"

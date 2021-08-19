@@ -71,6 +71,7 @@
                         v-nospaces
                         max-length="12"
                         placeholder="new environment..."
+                        :id="project.id"
                         @onCommit="addEnv(project, $event)">
                         <template v-slot:tooltip>Type new environment name</template>
                       </new-item>
@@ -92,6 +93,7 @@
                 v-nospaces
                 max-length="40"
                 placeholder="new project..."
+                id="new-proj"
                 @onCommit="createProject($event)">
                 <template v-slot:tooltip>Type new project name</template>
               </new-item>

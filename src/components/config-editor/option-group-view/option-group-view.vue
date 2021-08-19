@@ -20,6 +20,7 @@
           class="add-prop"
           max-length="128"
           placeholder="add property..."
+          :id="data.id"
           @onCommit="add($event)">
           <template v-slot:tooltip>
               <div class="add-prop-help">
@@ -83,6 +84,41 @@ export default OptionGroupView;
 
   .add-prop {
     margin-left: $code-tab;
+  }
+}
+
+.new-item-tooltip {
+  .tooltip-inner {
+    max-width: 600px;
+    text-align: left;
+
+    .add-prop-help {
+      margin: 1px 2px 5px 2px;
+
+      table, td, tr, th {
+        border: 1px solid $bordercolor;
+      }
+
+      table {
+        margin-top: 2px;
+      }
+
+      th {
+        text-align: center;
+      }
+
+      td {
+        padding: 3px;
+      }
+
+      .pattern {
+        min-width: 100px;
+      }
+
+      .description {
+        min-width: 200px;
+      }
+    }
   }
 }
 </style>

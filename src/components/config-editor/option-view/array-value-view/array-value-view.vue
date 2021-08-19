@@ -29,19 +29,23 @@
 
       <div class="add-prop-wrapper">
         <new-item
+          :id="id"
           v-if="elementsType === 'string'"
           class="add-prop"
           max-length="128"
           placeholder="add value..."
           @onCommit="addValue($event)">
+          <template v-slot:tooltip>Type any string value</template>
         </new-item>
         <new-item
+          :id="id"
           v-else-if="elementsType === 'number'"
           class="add-prop"
-          max-length="128"
+          max-length="10"
           v-digitsonly
           placeholder="add value..."
           @onCommit="addValue($event)">
+          <template v-slot:tooltip>Type number value</template>
         </new-item>
       </div>
     </expandable-code-group>

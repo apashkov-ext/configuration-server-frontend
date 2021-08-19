@@ -1,29 +1,30 @@
 <template>
   <div>
-    <b-input
+    <b-input :id="'new-item-' + id"
       class="new-item-input"
       :placeholder="placeholder || ''"
       v-model="value"
+      v-autowidth="{ maxWidth: '400px', minWidth: '160px', comfortZone: 0 }"
       :maxlength="maxLength"
       @keydown.native.enter="onEnter($event)"
       @keydown.native.esc="onEsc()"
-      @blur="onEsc()">
-    <b-tooltip :target="'new-item-' + id" triggers="focus" custom-class="new-item-tooltip" delay="{show:1000, hide:40}">
-
-      <slot name="tooltip"></slot>
-
-    </b-tooltip>
+      @blur="onEsc()"
+      ref="valueInput">
     </b-input>
+    <b-tooltip :target="'new-item-' + id" triggers="focus" custom-class="new-item-tooltip" delay="{show:1000, hide:40}">
+      <slot name="tooltip"></slot>
+    </b-tooltip>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component
 export default class NewItem extends Vue {
   @Prop() placeholder!: string;
   @Prop() maxLength!: number;
+  @Prop() id!: string;
 
   private value = '';
 
@@ -44,6 +45,7 @@ export default class NewItem extends Vue {
 </script>
 
 <style lang="scss">
+
 .new-item-input {
   border: none !important;
   background-color: rgba(0, 0, 0, 0) !important;
