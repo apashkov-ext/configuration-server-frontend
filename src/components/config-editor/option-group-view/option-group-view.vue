@@ -20,7 +20,51 @@
           class="add-prop"
           max-length="128"
           placeholder="add property..."
-          @onCommit="add($event)" />
+          @onCommit="add($event)">
+          <template v-slot:tooltip>
+              <div class="add-prop-help">
+                Add new property using specipic pattern:
+                <table>
+
+                  <tr>
+                    <th>Pattern</th>
+                    <th>Result</th>
+                  </tr>
+
+                  <tr>
+                    <td class="pattern">prop: {}</td>
+                    <td class="description">Option Group (object with properties)</td>
+                  </tr>
+
+                  <tr>
+                    <td class="pattern">prop: true</td>
+                    <td class="description">Boolean Option</td>
+                  </tr>
+
+                  <tr>
+                    <td class="pattern">prop: 8</td>
+                    <td class="description">Number Option</td>
+                  </tr>
+
+                  <tr>
+                    <td class="pattern">prop: some string</td>
+                    <td class="description">String Option</td>
+                  </tr>
+
+                  <tr>
+                    <td class="pattern">prop: [8, 5]</td>
+                    <td class="description">Number array Option</td>
+                  </tr>
+
+                  <tr>
+                    <td class="pattern">prop: ['someStr', '12']</td>
+                    <td class="description">String array Option</td>
+                  </tr>
+
+                </table>
+              </div>
+            </template>
+        </new-item>
       </div>
     </expandable-code-group>
   </div>

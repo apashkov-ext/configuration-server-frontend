@@ -3,17 +3,30 @@
     <h5>{{environment.name}}</h5>
     <b-tabs>
 
-      <b-tab title="Preview" active>
+      <b-tab active>
+        <template #title>
+          <span><b-icon icon="file-text" /> Preview</span>
+        </template>
         <config-preview :data="preview" />
       </b-tab>
 
       <b-tab title="Edit">
+        <template #title>
+          <span><b-icon icon="code-slash" /> Edit</span>
+        </template>
         <option-group-view :data="environment.optionGroup" @update="$emit('imported')" />
       </b-tab>
 
       <template #tabs-end>
-        <b-link @click="download()">Download</b-link>
-        <b-link @click="$refs.fileInput.click()">Import</b-link>
+
+        <b-nav-item role="presentation" @click="download()" class="no-content">
+          <span><b-icon icon="file-earmark-arrow-down" /> Download</span>
+        </b-nav-item>
+
+        <b-nav-item role="presentation" @click="$refs.fileInput.click()" class="no-content">
+          <span><b-icon icon="file-earmark-arrow-up" /> Import</span>
+        </b-nav-item>
+        
       </template>
 
     </b-tabs>

@@ -7,8 +7,12 @@
       :maxlength="maxLength"
       @keydown.native.enter="onEnter($event)"
       @keydown.native.esc="onEsc()"
-      @blur="onEsc()"
-    >
+      @blur="onEsc()">
+    <b-tooltip :target="'new-item-' + id" triggers="focus" custom-class="new-item-tooltip" delay="{show:1000, hide:40}">
+
+      <slot name="tooltip"></slot>
+
+    </b-tooltip>
     </b-input>
   </div>
 </template>
