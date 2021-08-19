@@ -53,7 +53,7 @@ export class Sidebar extends Vue {
   }
 
   addEnv(p: Project, envName: string) { 
-    const env = p.environments.filter(f => f.name === envName);
+    const env = p.environments.find(f => f.name === envName);
     if (env) {
       this.toastr.warn(`The '${envName}' environment already exists in the '${p.name}' project`);
       return;
@@ -88,10 +88,11 @@ export class Sidebar extends Vue {
 
     this.projectsApi.created
       .pipe(switchMap(p => {
-        return Modals.showNotif(`Use this api key to access the '${p.name}' project configuration`, p.apiKey).pipe(map(() => p))
+        return Modals.showNotif(`Use this api key to access the '${p.name}' project configuration`, p.apiKey).pipe(map(() => DtoParser.toProject(p)))
       }))
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(p => {
+        this.projects.push(p);
         this.toastr.success(`Project '${p.name}' was successfully created`);
         this.busy.hideBusy();
       });

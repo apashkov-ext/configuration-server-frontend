@@ -63,7 +63,7 @@ export class ConfigEditor extends Vue {
   created() {
     this.uploader.uploaded.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
       (this.$refs.fileInput as any).value = null;
-      this.$emit('uploaded');
+      this.$emit('imported');
     });
   }
 

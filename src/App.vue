@@ -8,7 +8,7 @@
         </b-col>
 
         <b-col class="editor-col" align-self="stretch">
-          <config-editor v-if="selected" :environment="selected.environment" :projectId="selected.projectId" @imported="imported(selected.environment.id)"></config-editor>
+          <config-editor v-if="selected" :environment="selected" :projectId="selected.projectId" @imported="imported(selected.optionGroup.id)"></config-editor>
         </b-col>
 
       </b-row>
