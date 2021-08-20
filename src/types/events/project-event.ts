@@ -1,3 +1,3 @@
 export interface ProjectEvent {
-    projectName: string;
+  projectName: string;
 }

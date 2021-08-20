@@ -1,6 +1,7 @@
-import { ConfigurationDto } from './configuration-dto';
+import { EnvironmentDto } from './environment-dto';
 
 export interface ProjectDto {
-    name: string;
-    configurations: ConfigurationDto[];
+  id: string;
+  name: string;
+  environments: EnvironmentDto[];
 }

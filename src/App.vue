@@ -1,44 +1,33 @@
 <template>
-<b-overlay :show="uiState.global.busy" rounded="sm">
-  <b-container fluid class="main-wrapper">
-    
+  <b-overlay :show="isBusy" rounded="sm">
+    <b-container fluid class="main-wrapper">
       <b-row>
-      <b-col class="sidebar-col" align-self="stretch">
-        <sidebar 
-          :projects="projects"
-          :disabled="uiState.sidebar.disabled"
-          @onSelectConfig="selectConfig($event)"
-          @onCreateProject="createProject($event)"
-          @onDeleteProject="deleteProject($event)"
-          @onAddConfig="addConfig($event)"
-          @onRemoveConfig="removeConfig($event)">
-        </sidebar>
-      </b-col>
-      <b-col class="editor-col" align-self="stretch">
-        <content-editor 
-          v-if="selected"
-          :data="selected" 
-          :disabled="uiState.editor.disabled"
-          @onChange="changeConfig($event)">
-        </content-editor>
-      </b-col>
-    </b-row>
-    
-  </b-container>
+
+        <b-col class="sidebar-col" align-self="stretch">
+          <sidebar @selectEnv="selectEnv($event)"></sidebar>
+        </b-col>
+
+        <b-col class="editor-col" align-self="stretch">
+          <config-editor v-if="selected" :environment="selected" :projectId="selected.projectId" @imported="imported(selected.optionGroup.id)"></config-editor>
+        </b-col>
+
+      </b-row>
+    </b-container>
   </b-overlay>
 </template>
 
 <script lang="ts">
 import { App } from './App';
-export default App
+export default App;
 </script>
 
 <style lang="scss">
-@import "@/assets/variables.scss";
+@import '@/assets/variables.scss';
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'node_modules/bootstrap-vue/src/index.scss';
 
-html, body{
+html,
+body {
   height: 100%;
   font-family: Consolas, monaco, monospace;
 }
@@ -61,5 +50,4 @@ html, body{
 .editor-col {
   padding: 0 !important;
 }
-
 </style>

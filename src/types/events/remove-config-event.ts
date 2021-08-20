@@ -1,4 +1,4 @@
 export interface RemoveConfigEvent {
-    projectName: string;
-    configName: string;
+  projectName: string;
+  configName: string;
 }
