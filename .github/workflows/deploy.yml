@@ -1,8 +1,8 @@
-name: Deploy
-
-on: [push]
-  branches:
-    - 'master'
+name: deploy
+on:
+  push:
+    branches:
+      - 'master'
 
 jobs:
   run_tests:
