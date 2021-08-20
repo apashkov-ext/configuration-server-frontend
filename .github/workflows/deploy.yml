@@ -21,5 +21,5 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
         with:
-          source: "./dist"
-          target: "/var/www/cms-client"
+          source: "dist"
+          target: "/var/www/cms"
