@@ -15,7 +15,8 @@ import { ParsedValueType } from './template-parsing/template';
 import { Modals } from '@/core/modals';
 
 @Component({
-  components: { OptionView, NewItem, ExpandableCodeGroup }
+  components: { OptionView, NewItem, ExpandableCodeGroup },
+  name: 'option-group-view'
 })
 export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
   private unsubscribe = new Subject();
