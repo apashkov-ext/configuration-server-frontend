@@ -5,8 +5,7 @@ import Sidebar from '@/components/sidebar/sidebar.vue';
 import ConfigEditor from '@/components/config-editor/config-editor.vue';
 import { Inject } from 'di-corate';
 import { BusyOverlay } from './core/busy-overlay';
-import { Environment } from './domain/environment';
-import { OptionGroup } from './domain';
+import { Environment } from './domain';
 import { Toastr } from './core/toastr';
 import { OptionGroupsApi } from './components/config-editor/option-group-view/option-group-api';
 import { DtoParser } from './components/sidebar/dto-parser';
@@ -37,7 +36,7 @@ export class App extends Vue {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(x => (this.isBusy = x));
 
-    this.optionGroupsApi.optionGroupLoaded
+    this.optionGroupsApi.loaded
       .pipe(map(DtoParser.toOptionGroup))
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(x => {

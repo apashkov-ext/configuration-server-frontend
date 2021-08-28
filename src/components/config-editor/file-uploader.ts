@@ -21,7 +21,7 @@ export class FileUploader extends Api {
         const formData = new FormData();
         formData.append('file', file);
 
-        this.http.post(`files/${projectId}/configs/${envName}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        this.http.post(`configurations?projId=${projectId}&envName=${envName}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
             .pipe(catchError(e => {
                 this.emitError(e);
                 return EMPTY;

@@ -1,4 +1,4 @@
-import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 import EditableLabel from '@/components/editable-label/editable-label.vue';
 
 @Component({

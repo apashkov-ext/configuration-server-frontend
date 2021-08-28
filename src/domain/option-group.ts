@@ -9,6 +9,10 @@ export class OptionGroup {
         return this._name;
     }
 
+    get description() {
+        return this._description;
+    }
+
     private __options: Option[];
     get options(): ReadonlyArray<Option> {
         return this.__options;
@@ -23,7 +27,7 @@ export class OptionGroup {
         return this._root;
     }
 
-    constructor(private _id: string, private _name: string, 
+    constructor(private _id: string, private _name: string, private _description: string,
         _options: ReadonlyArray<Option>, _nestedGroups: ReadonlyArray<OptionGroup>, private _root: boolean) {
             this.__options = Array.from(_options);
             this.__nestedGroups = Array.from(_nestedGroups);
@@ -47,6 +51,10 @@ export class OptionGroup {
 
     updateName(name: string) {
         this._name = name;
+    }
+
+    updateDescription(descr: string) {
+        this._description = descr;
     }
 
     /**

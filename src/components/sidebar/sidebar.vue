@@ -1,6 +1,6 @@
 <template>
   <div id="sidebar">
-    <h2>Projects</h2>
+    <h3>Projects</h3>
     <div class="list-wrapper">
       <b-list-group v-if="projects">
         <template v-for="(project, pIndex) in projects">

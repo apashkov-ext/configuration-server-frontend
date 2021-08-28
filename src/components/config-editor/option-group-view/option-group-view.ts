@@ -2,26 +2,28 @@ import { Component } from 'vue-property-decorator';
 import OptionView from '../option-view/option-view.vue';
 import NewItem from '@/components/new-item.vue';
 import ExpandableCodeGroup from '../expandable-code-group/expandable-code-group.vue';
-import { OptionGroupDto } from '@/types/dto/option-group-dto';
 import { Inject } from 'di-corate';
 import { OptionGroupsApi } from './option-group-api';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { BusyOverlay } from '@/core/busy-overlay';
 import { TemplateParser } from './template-parsing/template-parser';
-import { OptionValueType } from '@/domain/option-value-type.enum';
 import { ComponentWithData } from '@/core/component-with-data';
 import { ParsedValueType } from './template-parsing/template';
 import { Modals } from '@/core/modals';
+import { OptionGroup, OptionValueType } from '@/domain';
+import { DtoParser } from '@/components/sidebar/dto-parser';
+import { OptionsApi } from '../option-view/options-api';
 
 @Component({
   components: { OptionView, NewItem, ExpandableCodeGroup },
   name: 'option-group-view'
 })
-export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
+export class OptionGroupView extends ComponentWithData<OptionGroup> {
   private unsubscribe = new Subject();
 
-  @Inject(OptionGroupsApi) private readonly api!: OptionGroupsApi;
+  @Inject(OptionGroupsApi) private readonly optionGroupsApi!: OptionGroupsApi;
+  @Inject(OptionsApi) private readonly optionsApi!: OptionsApi;
   @Inject(BusyOverlay) private readonly busy!: BusyOverlay;
 
   constructor() {
@@ -43,83 +45,79 @@ export class OptionGroupView extends ComponentWithData<OptionGroupDto> {
 
   addNested(name: string) {
     this.busy.showBusy();
-    this.api.createOptionGroup(this.data.id, name);
+    this.optionGroupsApi.create(this.data.id, name);
   }
 
   addProperty(name: string, value: any, type: OptionValueType) {
     this.busy.showBusy();
-    this.api.createOption(this.data.id, name, '', value, type);
+    this.optionsApi.create(this.data.id, name, '', value, type);
   }
 
-  async deleteOption(id: string) {
+  deleteOption(id: string) {
     const o = this.data.options.find(f => f.id === id);
-    Modals.showConfirm('Delete property', `Are you sure you want to delete the property [${o?.name}] from the group [${this.data.name}]?`)
+    Modals.showConfirm('Delete property', `Are you sure you want to delete the '${o?.name}' property from the '${this.data.name}' option group?`)
       .subscribe(res => {
         if (!res) {
           return;
         }
         this.busy.showBusy();
-        this.api.deleteOption(id);
+        this.optionsApi.delete(id);
       });
   }
 
-  async deleteNested(name: string, id: string) {
-    Modals.showConfirm('Delete property', `Are you sure you want to delete group [${name}]?`)
+  deleteNested(name: string, id: string) {
+    Modals.showConfirm('Delete property', `Are you sure you want to delete '${name}' option group?`)
       .subscribe(res => {
         if (!res) {
           return;
         }
         this.busy.showBusy();
-        this.api.deleteOptionGroup(id);
+        this.optionGroupsApi.delete(id);
       });
   }
 
   changeGroupName(e: string) {
     this.busy.showBusy();
     this.backup();
-    this.data.name = e;
-    this.api.updateOptionGroup(this.data.id, e, this.data.description);
+    this.data.updateName(e);
+    this.optionGroupsApi.update(this.data.id, e, this.data.description);
   }
 
   created() {
-    this.api.onError.pipe(takeUntil(this.unsubscribe)).subscribe(() => this.rollback());
+    this.optionGroupsApi.onError.pipe(takeUntil(this.unsubscribe)).subscribe(() => this.rollback());
+    this.optionsApi.onError.pipe(takeUntil(this.unsubscribe)).subscribe(() => this.rollback());
 
-    this.api.optionGroupCreated.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
-      this.data.nestedGroups.push({
-        id: x.id,
-        name: x.name,
-        description: x.description,
-        nestedGroups: [],
-        options: [],
-        root: false
-      });
+    this.optionGroupsApi.created
+      .pipe(map(DtoParser.toOptionGroup))
+      .pipe(takeUntil(this.unsubscribe)).subscribe(x => {
+      this.data.addNestedGroup(x);
       this.busy.hideBusy();
     });
 
-    this.api.optionGroupUpdated.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
-      this.data.name = x.name;
-      this.data.description = x.description;
+    this.optionGroupsApi.updated.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
       this.busy.hideBusy();
     });
 
-    this.api.optionGroupDeleted.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
-      this.data.nestedGroups = this.data.nestedGroups.filter(f => f.id !== x.id);
+    this.optionGroupsApi.deleted.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
+      const removedGroup = this.data.nestedGroups.find(f => f.id === x.id);
+      if (removedGroup) {
+        this.data.removeNestedGroup(removedGroup);
+      }
       this.busy.hideBusy();
     });
 
-    this.api.optionCreated.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
-      this.data.options.push({
-        id: x.id,
-        name: x.name,
-        description: x.description,
-        value: x.value,
-        type: x.type
-      });
+    this.optionsApi.created
+      .pipe(map(DtoParser.toOption))
+      .pipe(takeUntil(this.unsubscribe)).subscribe(x => {
+      this.data.addOption(x);
       this.busy.hideBusy();
     });
 
-    this.api.optionDeleted.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
-      this.data.options = this.data.options.filter(f => f.id !== x.id);
+    this.optionsApi.optionDeleted.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
+      const removedOption = this.data.options.find(f => f.id === x.id);
+      if (removedOption) {
+        this.data.removeOption(removedOption);
+      }
       this.busy.hideBusy();
     });
   }

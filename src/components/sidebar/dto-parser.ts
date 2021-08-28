@@ -17,7 +17,7 @@ export class DtoParser {
   static toOptionGroup(dto: OptionGroupDto): OptionGroup {
     const options = dto.options.map(DtoParser.toOption);
     const nested = dto.nestedGroups.map(DtoParser.toOptionGroup);
-    const group = new OptionGroup(dto.id, dto.name, options, nested, dto.root);
+    const group = new OptionGroup(dto.id, dto.name, dto.description, options, nested, dto.root);
     return group;
   }
 
