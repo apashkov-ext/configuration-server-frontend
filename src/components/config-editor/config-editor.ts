@@ -60,9 +60,15 @@ export class ConfigEditor extends Vue {
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
   }
 
+  private resetInput() {
+    (this.$refs.fileInput as any).value = null;
+  }
+
   created() {
+    this.uploader.onError.pipe(takeUntil(this.unsubscribe)).subscribe(this.resetInput)
+
     this.uploader.uploaded.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      (this.$refs.fileInput as any).value = null;
+      this.resetInput();
       this.$emit('imported');
     });
   }
