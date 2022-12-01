@@ -7,6 +7,7 @@
           <sidebar @selectEnv="selectEnv($event)"></sidebar>
         </b-col>
 
+
         <b-col class="editor-col" align-self="stretch">
           <config-editor v-if="selected" :environment="selected" :projectId="selected.projectId" @imported="imported(selected.optionGroup.id)"></config-editor>
         </b-col>
